@@ -1,0 +1,950 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HargaLokal SmartCompare</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+<style>
+:root {
+  --hl-green: #2E7D32;
+  --hl-green-light: #4CAF50;
+  --hl-accent: #FFC107;
+  --hl-bg: #F8F9FA;
+  --hl-card: #fff;
+  --hl-text: #1a2332;
+  --hl-muted: #6c757d;
+  --hl-border: rgba(0,0,0,0.08);
+}
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', sans-serif; background: var(--hl-bg); color: var(--hl-text); margin: 0; }
+
+/* NAV */
+.hl-nav { background: var(--hl-green); padding: 0 1rem; position: sticky; top: 0; z-index: 999; }
+.hl-nav-inner { max-width: 1100px; margin: auto; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+.hl-logo { color: #fff; font-weight: 700; font-size: 1.15rem; text-decoration: none; display: flex; align-items: center; gap: 8px; }
+.hl-logo span.leaf { background: var(--hl-accent); color: var(--hl-green); border-radius: 6px; padding: 2px 8px; font-size: 0.75rem; font-weight: 800; }
+.nav-tabs-hl { display: flex; gap: 4px; list-style: none; margin: 0; padding: 0; }
+.nav-tabs-hl .nav-link { color: rgba(255,255,255,0.75); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.82rem; font-weight: 500; border: none; background: none; transition: all 0.2s; }
+.nav-tabs-hl .nav-link:hover, .nav-tabs-hl .nav-link.active { background: rgba(255,255,255,0.18); color: #fff; }
+
+/* PAGES */
+.page { display: none; animation: fadeIn 0.3s ease; }
+.page.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+/* HERO */
+.hero { background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 60%, #388E3C 100%); color: white; padding: 3rem 1rem 4rem; text-align: center; }
+.hero h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 0.5rem; letter-spacing: -0.5px; }
+.hero .tagline { font-size: 1.05rem; opacity: 0.85; margin-bottom: 1.5rem; }
+.hero-search { max-width: 520px; margin: 0 auto; display: flex; gap: 8px; }
+.hero-search input { flex: 1; border: none; border-radius: 10px; padding: 12px 18px; font-size: 1rem; outline: none; }
+.hero-search button { background: var(--hl-accent); border: none; border-radius: 10px; padding: 12px 20px; font-weight: 700; color: #1a2332; cursor: pointer; white-space: nowrap; }
+.hero-wave { background: var(--hl-bg); height: 40px; margin-top: -1px; }
+
+/* STATS */
+.stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 1.5rem; }
+.stat-card { background: white; border-radius: 12px; padding: 1.2rem; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.07); border: 1px solid var(--hl-border); }
+.stat-num { font-size: 1.8rem; font-weight: 800; color: var(--hl-green); }
+.stat-label { font-size: 0.78rem; color: var(--hl-muted); margin-top: 2px; }
+
+/* SECTION */
+.section { max-width: 1100px; margin: 0 auto; padding: 1.5rem 1rem; }
+.section-title { font-size: 1.15rem; font-weight: 700; color: var(--hl-green); margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; }
+
+/* COMMODITY CHIPS */
+.commodity-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 1.5rem; }
+.commodity-chip { background: white; border: 1.5px solid var(--hl-border); border-radius: 20px; padding: 8px 16px; display: flex; align-items: center; gap: 8px; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.05); font-size: 0.88rem; }
+.commodity-chip:hover { border-color: var(--hl-green-light); background: #F1F8E9; }
+.commodity-chip .chip-icon { font-size: 1.2rem; }
+.commodity-chip .chip-price { font-weight: 700; color: var(--hl-green); font-size: 0.8rem; }
+.commodity-chip .chip-trend { font-size: 0.7rem; }
+.trend-up { color: #e53935; }
+.trend-down { color: #2E7D32; }
+.trend-stable { color: #888; }
+
+/* MARKET CARDS */
+.market-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; margin-bottom: 1.5rem; }
+.market-card { background: white; border-radius: 14px; border: 1px solid var(--hl-border); overflow: hidden; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+.market-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(46,125,50,0.15); border-color: var(--hl-green-light); }
+.market-card-header { background: var(--hl-green); color: white; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; }
+.market-card-name { font-weight: 700; font-size: 0.95rem; }
+.market-badge { background: rgba(255,255,255,0.2); border-radius: 20px; padding: 2px 10px; font-size: 0.72rem; }
+.market-card-body { padding: 12px 14px; }
+.market-info-row { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.82rem; }
+.market-info-row .label { color: var(--hl-muted); }
+.market-info-row .val { font-weight: 600; }
+.market-price-preview { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.price-tag { background: #F1F8E9; border: 1px solid #C8E6C9; border-radius: 8px; padding: 4px 8px; font-size: 0.74rem; color: var(--hl-green); font-weight: 600; }
+.market-distance { color: var(--hl-green); font-weight: 700; font-size: 0.88rem; }
+
+/* TABLE */
+.price-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.price-table th { background: var(--hl-green); color: white; padding: 10px 14px; text-align: left; font-weight: 600; }
+.price-table td { padding: 10px 14px; border-bottom: 1px solid #f0f0f0; }
+.price-table tr:hover td { background: #F9FBE7; }
+.price-table .cheapest { background: #E8F5E9 !important; font-weight: 700; color: #1B5E20; }
+.price-table .priciest { background: #FFEBEE !important; font-weight: 700; color: #b71c1c; }
+
+/* RECOMMENDATION CARD */
+.reco-card { background: linear-gradient(135deg, #F1F8E9, #E8F5E9); border: 2px solid var(--hl-green-light); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; }
+.reco-title { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--hl-green); margin-bottom: 0.5rem; }
+.reco-market { font-size: 1.4rem; font-weight: 800; color: var(--hl-green); }
+.reco-saving { font-size: 1rem; color: #1B5E20; margin-top: 6px; }
+.reco-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.reco-badge { background: var(--hl-green); color: white; border-radius: 20px; padding: 4px 12px; font-size: 0.75rem; font-weight: 600; }
+.score-bar { height: 6px; background: #C8E6C9; border-radius: 3px; margin-top: 4px; overflow: hidden; }
+.score-fill { height: 100%; background: var(--hl-green); border-radius: 3px; transition: width 1s ease; }
+
+/* BASKET */
+.basket-item { display: flex; align-items: center; gap: 10px; background: white; border: 1px solid var(--hl-border); border-radius: 10px; padding: 10px 14px; margin-bottom: 8px; }
+.basket-item input[type=number] { width: 70px; border: 1px solid #ddd; border-radius: 6px; padding: 4px 8px; text-align: center; }
+.basket-item .commodity-label { flex: 1; font-weight: 600; font-size: 0.9rem; }
+.basket-item .unit-label { color: var(--hl-muted); font-size: 0.8rem; }
+.basket-result { background: white; border-radius: 14px; border: 1px solid var(--hl-border); overflow: hidden; margin-top: 1rem; }
+.basket-result-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid #f0f0f0; }
+.basket-result-row:last-child { border-bottom: none; }
+.basket-result-row.winner { background: #E8F5E9; }
+.basket-market-name { font-weight: 700; font-size: 0.95rem; }
+.basket-total { font-size: 1.1rem; font-weight: 800; color: var(--hl-green); }
+.basket-dist { font-size: 0.78rem; color: var(--hl-muted); }
+
+/* MAP */
+#marketMap { height: 380px; border-radius: 14px; overflow: hidden; border: 1px solid var(--hl-border); }
+
+/* CHART */
+.chart-wrap { background: white; border-radius: 14px; border: 1px solid var(--hl-border); padding: 1.2rem; margin-bottom: 1rem; }
+
+/* PREDICTION */
+.pred-card { background: white; border-radius: 14px; border: 1px solid var(--hl-border); padding: 1.2rem; margin-bottom: 1rem; }
+.pred-val { font-size: 1.6rem; font-weight: 800; }
+.pred-label { font-size: 0.78rem; color: var(--hl-muted); }
+.pred-direction { font-size: 0.88rem; margin-top: 4px; }
+
+/* REPORT FORM */
+.report-form { background: white; border-radius: 14px; border: 1px solid var(--hl-border); padding: 1.5rem; }
+.form-control, .form-select { border-radius: 8px; border: 1.5px solid #ddd; padding: 10px 14px; font-size: 0.9rem; width: 100%; margin-bottom: 12px; }
+.form-control:focus, .form-select:focus { border-color: var(--hl-green); outline: none; box-shadow: 0 0 0 3px rgba(46,125,50,0.15); }
+.btn-hl { background: var(--hl-green); color: white; border: none; border-radius: 10px; padding: 10px 24px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+.btn-hl:hover { background: #1B5E20; }
+.btn-accent { background: var(--hl-accent); color: #1a2332; border: none; border-radius: 10px; padding: 10px 24px; font-weight: 700; cursor: pointer; }
+.btn-outline-hl { background: transparent; color: var(--hl-green); border: 1.5px solid var(--hl-green); border-radius: 10px; padding: 8px 18px; font-weight: 600; cursor: pointer; font-size: 0.85rem; transition: all 0.2s; }
+.btn-outline-hl:hover { background: var(--hl-green); color: white; }
+
+/* COMPARE TOGGLE */
+.compare-select { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 1rem; }
+.compare-btn {
+  padding: 8px 16px;
+  border: 2px solid #ddd;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.83rem;
+  font-weight: 600;
+  background: white;
+  color: #1a2332;
+  transition: all 0.2s;
+}
+.compare-btn.selected { border-color: var(--hl-green); background: #E8F5E9; color: var(--hl-green); }
+
+/* ADMIN */
+.admin-stat { background: white; border-radius: 12px; border: 1px solid var(--hl-border); padding: 1.2rem; text-align: center; }
+.admin-stat .num { font-size: 2rem; font-weight: 800; }
+.admin-stat .lbl { font-size: 0.8rem; color: var(--hl-muted); }
+.report-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f0f0f0; font-size: 0.87rem; }
+.badge-pending { background: #FFF9C4; color: #827717; border-radius: 20px; padding: 3px 10px; font-size: 0.72rem; font-weight: 700; }
+.badge-approved { background: #E8F5E9; color: #1B5E20; border-radius: 20px; padding: 3px 10px; font-size: 0.72rem; font-weight: 700; }
+.badge-rejected { background: #FFEBEE; color: #b71c1c; border-radius: 20px; padding: 3px 10px; font-size: 0.72rem; font-weight: 700; }
+
+/* SCROLLABLE */
+.table-scroll { overflow-x: auto; }
+
+/* TOAST */
+.hl-toast { position: fixed; bottom: 20px; right: 20px; background: var(--hl-green); color: white; padding: 12px 20px; border-radius: 10px; font-weight: 600; z-index: 9999; font-size: 0.88rem; animation: slideUp 0.3s ease; max-width: 300px; }
+@keyframes slideUp { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
+
+/* DETAIL PAGE */
+.detail-header { background: var(--hl-green); color: white; padding: 1.5rem 1rem; }
+.detail-back { background: rgba(255,255,255,0.2); border: none; color: white; border-radius: 8px; padding: 6px 14px; cursor: pointer; font-size: 0.85rem; margin-bottom: 10px; }
+.detail-header h2 { font-size: 1.5rem; font-weight: 800; margin: 0; }
+.detail-header p { opacity: 0.85; margin: 4px 0 0; font-size: 0.9rem; }
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .hero h1 { font-size: 1.5rem; }
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .hero-search { flex-direction: column; }
+  .nav-tabs-hl .nav-link { padding: 5px 8px; font-size: 0.72rem; }
+}
+button {
+    color: #1a2332 !important;
+}
+
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav class="hl-nav">
+  <div class="hl-nav-inner">
+    <a class="hl-logo" href="#" onclick="showPage('home')">
+      🌿 HargaLokal <span class="leaf">SMART</span>
+    </a>
+    <ul class="nav-tabs-hl">
+      <li><button class="nav-link active" onclick="showPage('home',this)">Beranda</button></li>
+      <li><button class="nav-link" onclick="showPage('markets',this)">📍 Pasar</button></li>
+      <li><button class="nav-link" onclick="showPage('compare',this)">⚖️ Bandingkan</button></li>
+      <li><button class="nav-link" onclick="showPage('basket',this)">🛒 Keranjang</button></li>
+      <li><button class="nav-link" onclick="showPage('analytics',this)">📈 Analitik</button></li>
+      <li><button class="nav-link" onclick="showPage('report',this)">📝 Lapor</button></li>
+      <li><button class="nav-link" onclick="showPage('admin',this)">⚙️ Admin</button></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ===== HOME PAGE ===== -->
+<div id="page-home" class="page active">
+  <!-- HERO -->
+  <div class="hero">
+    <h1>🌿 HargaLokal SmartCompare</h1>
+    <p class="tagline">Temukan Harga Terbaik di Sekitar Anda</p>
+    <div class="hero-search">
+      <input id="heroSearch" type="text" placeholder="Cari komoditas... (beras, telur, cabai)" oninput="filterHero()">
+      <button onclick="doHeroSearch()">🔍 Cari Harga</button>
+    </div>
+    <div id="heroSuggest" style="max-width:520px;margin:8px auto 0;display:none;background:white;border-radius:10px;text-align:left;overflow:hidden;"></div>
+  </div>
+
+  <div class="section">
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-num" id="statMarkets">12</div><div class="stat-label">Total Pasar</div></div>
+      <div class="stat-card"><div class="stat-num" id="statCommodities">18</div><div class="stat-label">Komoditas</div></div>
+      <div class="stat-card"><div class="stat-num" id="statReports">247</div><div class="stat-label">Laporan Harga</div></div>
+    </div>
+
+    <!-- POPULAR COMMODITIES -->
+    <div class="section-title">🧺 Komoditas Populer</div>
+    <div class="commodity-grid" id="commodityGrid"></div>
+
+    <!-- FEATURED MARKETS -->
+    <div class="section-title">🏪 Pasar Unggulan</div>
+    <div class="market-grid" id="featuredMarkets"></div>
+
+    <!-- LATEST UPDATES -->
+    <div class="section-title">🕐 Update Harga Terbaru</div>
+    <div id="latestUpdates"></div>
+
+    <!-- CTA -->
+    <div style="text-align:center;padding:2rem 0;">
+      <button class="btn-accent" style="font-size:1.05rem;padding:14px 32px;border-radius:12px;" onclick="showPage('basket')">
+        🛒 Temukan Pasar Termurah
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MARKETS PAGE ===== -->
+<div id="page-markets" class="page">
+  <div class="section">
+    <div class="section-title">📍 Pasar Terdekat dari Lokasi Anda</div>
+    <div style="display:flex;gap:10px;margin-bottom:1rem;align-items:center;flex-wrap:wrap;">
+      <button class="btn-hl" onclick="detectLocation()">📡 Deteksi Lokasi Saya</button>
+      <span id="locStatus" style="font-size:0.85rem;color:var(--hl-muted);">Belum mendeteksi lokasi</span>
+    </div>
+    <div id="marketMap" style="margin-bottom:1.5rem;"></div>
+    <div class="section-title">Daftar Pasar</div>
+    <div class="market-grid" id="allMarkets"></div>
+  </div>
+</div>
+
+<!-- ===== MARKET DETAIL PAGE ===== -->
+<div id="page-detail" class="page">
+  <div class="detail-header">
+    <button class="detail-back" onclick="showPage('markets')">← Kembali</button>
+    <h2 id="detailName">Pasar Johar</h2>
+    <p id="detailAddr">Jl. Agus Salim, Semarang Tengah</p>
+    <p id="detailDist" style="opacity:0.7;font-size:0.82rem;"></p>
+  </div>
+  <div class="section">
+    <div style="display:flex;gap:10px;margin-bottom:1rem;flex-wrap:wrap;">
+      <input class="form-control" style="max-width:220px;margin-bottom:0;" id="detailSearch" placeholder="Cari komoditas..." oninput="filterDetailTable()">
+      <select class="form-select" style="max-width:180px;margin-bottom:0;" onchange="sortDetailTable(this.value)">
+        <option value="">Urutkan...</option>
+        <option value="asc">Harga: Terendah</option>
+        <option value="desc">Harga: Tertinggi</option>
+      </select>
+      <button class="btn-outline-hl" onclick="addToCompare(currentMarket)">⚖️ Bandingkan</button>
+    </div>
+    <div class="table-scroll">
+      <table class="price-table" style="border-radius:14px;overflow:hidden;">
+        <thead><tr><th>Komoditas</th><th>Satuan</th><th>Harga</th><th>Trend</th></tr></thead>
+        <tbody id="detailTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ===== COMPARE PAGE ===== -->
+<div id="page-compare" class="page">
+  <div class="section">
+    <div class="section-title">⚖️ Perbandingan Harga Antar Pasar</div>
+    <div style="font-size:0.88rem;color:var(--hl-muted);margin-bottom:1rem;">Pilih 2–3 pasar untuk dibandingkan</div>
+    <div class="compare-select" id="compareSelect"></div>
+    <button class="btn-hl" style="margin-bottom:1.5rem;" onclick="renderComparison()">Bandingkan Sekarang</button>
+    <div id="compareResult"></div>
+  </div>
+</div>
+
+<!-- ===== BASKET PAGE ===== -->
+<div id="page-basket" class="page">
+  <div class="section">
+    <div class="section-title">🛒 Keranjang Belanja Cerdas</div>
+    <p style="font-size:0.88rem;color:var(--hl-muted);">Masukkan jumlah yang ingin dibeli, sistem akan menghitung total di setiap pasar.</p>
+    <div id="basketItems"></div>
+    <button class="btn-hl" onclick="calcBasket()">🔍 Hitung & Rekomendasi</button>
+    <div id="basketResult" style="margin-top:1.5rem;"></div>
+  </div>
+</div>
+
+<!-- ===== ANALYTICS PAGE ===== -->
+<div id="page-analytics" class="page">
+  <div class="section">
+    <div class="section-title">📈 Analitik & Prediksi Harga</div>
+    <div style="margin-bottom:1rem;display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+      <select class="form-select" style="max-width:200px;margin-bottom:0;" id="analyticsCommodity" onchange="renderAnalytics()">
+      </select>
+      <select class="form-select" style="max-width:140px;margin-bottom:0;" id="analyticsPeriod" onchange="renderAnalytics()">
+        <option value="weekly">Mingguan</option>
+        <option value="monthly">Bulanan</option>
+      </select>
+    </div>
+
+    <div class="chart-wrap">
+      <div style="font-size:0.85rem;font-weight:600;margin-bottom:10px;color:var(--hl-green);">Tren Harga</div>
+      <div style="position:relative;height:220px;">
+        <canvas id="trendChart" role="img" aria-label="Grafik tren harga komoditas"></canvas>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:1rem;">
+      <div class="pred-card" style="flex:1;min-width:180px;">
+        <div class="pred-label">Harga Minggu Ini</div>
+        <div class="pred-val" id="predCurrent">-</div>
+        <div class="pred-direction" id="predStatus">-</div>
+      </div>
+      <div class="pred-card" style="flex:1;min-width:180px;border-color:var(--hl-accent);background:#FFFDE7;">
+        <div class="pred-label">🤖 Prediksi Minggu Depan</div>
+        <div class="pred-val" id="predNext" style="color:#E65100;">-</div>
+        <div class="pred-direction" id="predChange">-</div>
+      </div>
+    </div>
+
+    <div class="chart-wrap">
+      <div style="font-size:0.85rem;font-weight:600;margin-bottom:10px;color:var(--hl-green);">Grafik Prediksi (Linear Regression)</div>
+      <div style="position:relative;height:220px;">
+        <canvas id="predChart" role="img" aria-label="Grafik prediksi harga"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== REPORT PAGE ===== -->
+<div id="page-report" class="page">
+  <div class="section">
+    <div class="section-title">📝 Laporkan Harga Pasar</div>
+    <div class="report-form">
+      <label style="font-size:0.85rem;font-weight:600;color:var(--hl-muted);margin-bottom:4px;display:block;">Pilih Pasar</label>
+      <select class="form-select" id="repMarket"></select>
+      <label style="font-size:0.85rem;font-weight:600;color:var(--hl-muted);margin-bottom:4px;display:block;">Komoditas</label>
+      <select class="form-select" id="repCommodity"></select>
+      <label style="font-size:0.85rem;font-weight:600;color:var(--hl-muted);margin-bottom:4px;display:block;">Harga (Rp / satuan)</label>
+      <input class="form-control" type="number" id="repPrice" placeholder="Contoh: 14500" min="1">
+      <label style="font-size:0.85rem;font-weight:600;color:var(--hl-muted);margin-bottom:4px;display:block;">Tanggal</label>
+      <input class="form-control" type="date" id="repDate">
+      <button class="btn-hl" style="width:100%;margin-top:8px;" onclick="submitReport()">📤 Kirim Laporan</button>
+    </div>
+    <div class="section-title" style="margin-top:1.5rem;">Laporan Saya</div>
+    <div id="myReports"></div>
+  </div>
+</div>
+
+<!-- ===== ADMIN PAGE ===== -->
+<div id="page-admin" class="page">
+  <div class="section">
+    <div class="section-title">⚙️ Admin Dashboard</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-bottom:1.5rem;">
+      <div class="admin-stat"><div class="num" style="color:#1565C0;">48</div><div class="lbl">Total Pengguna</div></div>
+      <div class="admin-stat"><div class="num" style="color:var(--hl-green);" id="adminMarkets">12</div><div class="lbl">Total Pasar</div></div>
+      <div class="admin-stat"><div class="num" style="color:#7B1FA2;">18</div><div class="lbl">Komoditas</div></div>
+      <div class="admin-stat"><div class="num" style="color:#E65100;" id="adminReports">0</div><div class="lbl">Total Laporan</div></div>
+    </div>
+
+    <div class="section-title">Kelola Laporan Harga</div>
+    <div id="adminReportList"></div>
+
+    <div class="section-title" style="margin-top:1.5rem;">Kelola Data Pasar</div>
+    <div class="table-scroll">
+      <table class="price-table" style="border-radius:14px;overflow:hidden;">
+        <thead><tr><th>ID</th><th>Nama Pasar</th><th>Kota</th><th>Koordinat</th></tr></thead>
+        <tbody id="adminMarketTable"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TOAST ===== -->
+<div id="toast" class="hl-toast" style="display:none;"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+// ===================== DATA =====================
+const markets = [
+  { id:1, name:"Pasar Johar", address:"Jl. Agus Salim No.1", city:"Semarang Tengah", lat:-6.9847, lng:110.4103, lastUpdate:"2 jam lalu" },
+  { id:2, name:"Pasar Peterongan", address:"Jl. MT. Haryono", city:"Semarang Selatan", lat:-6.9929, lng:110.4157, lastUpdate:"5 jam lalu" },
+  { id:3, name:"Pasar Karangayu", address:"Jl. Dr. Wahidin", city:"Semarang Barat", lat:-6.9754, lng:110.3987, lastUpdate:"1 hari lalu" },
+  { id:4, name:"Pasar Bulu", address:"Jl. Sultan Agung", city:"Semarang Selatan", lat:-7.0023, lng:110.4056, lastUpdate:"3 jam lalu" },
+  { id:5, name:"Pasar Gayamsari", address:"Jl. Sawah Besar", city:"Gayamsari", lat:-6.9996, lng:110.4298, lastUpdate:"8 jam lalu" },
+  { id:6, name:"Pasar Pedurungan", address:"Jl. Pedurungan", city:"Pedurungan", lat:-7.0031, lng:110.4512, lastUpdate:"4 jam lalu" },
+];
+
+const commodities = [
+  { id:1, name:"Beras", unit:"kg", icon:"🌾", trend:"stable" },
+  { id:2, name:"Telur Ayam", unit:"kg", icon:"🥚", trend:"up" },
+  { id:3, name:"Cabai Merah", unit:"kg", icon:"🌶️", trend:"down" },
+  { id:4, name:"Bawang Merah", unit:"kg", icon:"🧅", trend:"up" },
+  { id:5, name:"Minyak Goreng", unit:"liter", icon:"🫙", trend:"stable" },
+  { id:6, name:"Gula Pasir", unit:"kg", icon:"🍚", trend:"up" },
+  { id:7, name:"Daging Ayam", unit:"kg", icon:"🍗", trend:"down" },
+  { id:8, name:"Tempe", unit:"potong", icon:"🟫", trend:"stable" },
+];
+
+// Price matrix [market_id][commodity_id] = price
+const prices = {
+  1:{1:14500,2:28000,3:37000,4:36000,5:14000,6:13500,7:35000,8:2500},
+  2:{1:15000,2:26000,3:35000,4:34500,5:14500,6:13800,7:33000,8:2300},
+  3:{1:14000,2:29000,3:40000,4:38000,5:13800,6:13200,7:36000,8:2600},
+  4:{1:14800,2:27500,3:36500,4:35500,5:14200,6:13600,7:34500,8:2400},
+  5:{1:15200,2:28500,3:38000,4:37000,5:14800,6:14000,7:35500,8:2700},
+  6:{1:14600,2:27000,3:36000,4:35000,5:14100,6:13400,7:34000,8:2350},
+};
+
+// Weekly price history [commodity_id]
+const priceHistory = {
+  1:[13800,14000,14200,14300,14400,14450,14500],
+  2:[26500,27000,27500,27800,28000,28100,28000],
+  3:[42000,40500,39000,38000,37500,37200,37000],
+  4:[33000,34000,35000,35500,36000,36200,36000],
+  5:[14500,14300,14100,14050,14000,14000,14000],
+  6:[13000,13200,13400,13450,13500,13500,13500],
+  7:[36000,35500,35000,34800,34500,34800,35000],
+  8:[2400,2450,2450,2500,2500,2500,2500],
+};
+
+const weekLabels = ["Mg-1","Mg-2","Mg-3","Mg-4","Mg-5","Mg-6","Mg-7"];
+
+let userLat = -6.9847, userLng = 110.4103;
+let mapInstance = null;
+let currentMarket = 1;
+let selectedCompare = new Set([1,2]);
+let trendChartInst = null, predChartInst = null;
+let reportsList = [];
+
+// ===================== HELPERS =====================
+function fmt(n) { return 'Rp' + n.toLocaleString('id-ID'); }
+function calcDist(lat1,lng1,lat2,lng2) {
+  const R=6371, dLat=(lat2-lat1)*Math.PI/180, dLng=(lng2-lng1)*Math.PI/180;
+  const a=Math.sin(dLat/2)**2+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
+  return (R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a))).toFixed(1);
+}
+function showToast(msg) {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.style.display='block';
+  setTimeout(()=>t.style.display='none', 2800);
+}
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  if(id==='markets' && !mapInstance) initMap();
+  if(id==='analytics') { initAnalyticsSelects(); renderAnalytics(); }
+  if(id==='admin') renderAdmin();
+  if(id==='report') initReport();
+}
+
+// ===================== HOME =====================
+function renderHome() {
+  // Commodities
+  const grid = document.getElementById('commodityGrid');
+  grid.innerHTML = '';
+  commodities.forEach(c => {
+    const avgPrice = markets.reduce((s,m)=>(s+(prices[m.id][c.id]||0)),0)/markets.length;
+    const trend = c.trend==='up' ? '<span class="trend-up">📈 Naik</span>' : c.trend==='down' ? '<span class="trend-down">📉 Turun</span>' : '<span class="trend-stable">➡ Stabil</span>';
+    grid.innerHTML += `<div class="commodity-chip" onclick="showCommodityDetail(${c.id})">
+      <span class="chip-icon">${c.icon}</span>
+      <span>${c.name}</span>
+      <span class="chip-price">${fmt(Math.round(avgPrice))}/${c.unit}</span>
+      <span class="chip-trend">${trend}</span>
+    </div>`;
+  });
+
+  // Featured markets
+  const mGrid = document.getElementById('featuredMarkets');
+  mGrid.innerHTML = '';
+  markets.slice(0,3).forEach(m => {
+    const dist = calcDist(userLat,userLng,m.lat,m.lng);
+    mGrid.innerHTML += marketCardHTML(m, dist);
+  });
+
+  // Latest updates
+  const lu = document.getElementById('latestUpdates');
+  lu.innerHTML = '';
+  const updates = [
+    {m:"Pasar Johar", c:"Beras", p:14500, t:"2 jam lalu"},
+    {m:"Pasar Peterongan", c:"Cabai Merah", p:35000, t:"3 jam lalu"},
+    {m:"Pasar Bulu", c:"Telur Ayam", p:27500, t:"5 jam lalu"},
+    {m:"Pasar Karangayu", c:"Bawang Merah", p:38000, t:"6 jam lalu"},
+  ];
+  updates.forEach(u => {
+    lu.innerHTML += `<div class="report-row">
+      <span>🏪 <strong>${u.m}</strong> — ${u.c}</span>
+      <span>${fmt(u.p)}</span>
+      <span style="color:var(--hl-muted);font-size:0.78rem;">${u.t}</span>
+    </div>`;
+  });
+}
+
+function marketCardHTML(m, dist) {
+  const pList = commodities.slice(0,4).map(c=>`<span class="price-tag">${c.icon} ${fmt(prices[m.id][c.id])}</span>`).join('');
+  return `<div class="market-card" onclick="openMarket(${m.id})">
+    <div class="market-card-header">
+      <span class="market-card-name">🏪 ${m.name}</span>
+      <span class="market-badge">${dist} km</span>
+    </div>
+    <div class="market-card-body">
+      <div class="market-info-row"><span class="label">📍 Lokasi</span><span class="val">${m.city}</span></div>
+      <div class="market-info-row"><span class="label">🕐 Update</span><span class="val">${m.lastUpdate}</span></div>
+      <div class="market-price-preview">${pList}</div>
+    </div>
+  </div>`;
+}
+
+function filterHero() {
+  const q = document.getElementById('heroSearch').value.toLowerCase();
+  const sug = document.getElementById('heroSuggest');
+  if(!q) { sug.style.display='none'; return; }
+  const hits = commodities.filter(c=>c.name.toLowerCase().includes(q));
+  if(!hits.length) { sug.style.display='none'; return; }
+  sug.style.display='block';
+  sug.innerHTML = hits.map(c=>`<div style="padding:10px 14px;cursor:pointer;border-bottom:1px solid #f0f0f0;font-size:0.9rem;" onmousedown="selectSuggest('${c.name}',${c.id})">${c.icon} ${c.name} &nbsp;<span style="color:var(--hl-green);font-size:0.8rem;">lihat harga →</span></div>`).join('');
+}
+
+function selectSuggest(name, id) {
+  document.getElementById('heroSearch').value = name;
+  document.getElementById('heroSuggest').style.display='none';
+  showPage('analytics');
+  document.getElementById('analyticsCommodity').value = id;
+  renderAnalytics();
+}
+
+function doHeroSearch() {
+  showPage('compare');
+  renderComparison();
+}
+
+// ===================== MARKETS =====================
+function renderMarkets() {
+  const grid = document.getElementById('allMarkets');
+  grid.innerHTML = '';
+  const sorted = [...markets].sort((a,b)=>calcDist(userLat,userLng,a.lat,a.lng)-calcDist(userLat,userLng,b.lat,b.lng));
+  sorted.forEach(m => {
+    const dist = calcDist(userLat,userLng,m.lat,m.lng);
+    grid.innerHTML += marketCardHTML(m,dist);
+  });
+}
+
+function detectLocation() {
+  document.getElementById('locStatus').textContent = '⏳ Mendeteksi lokasi...';
+  if(navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(pos => {
+      userLat = pos.coords.latitude;
+      userLng = pos.coords.longitude;
+      document.getElementById('locStatus').textContent = `✅ Lokasi terdeteksi: ${userLat.toFixed(4)}, ${userLng.toFixed(4)}`;
+      renderMarkets();
+      if(mapInstance) mapInstance.setView([userLat,userLng],13);
+    }, () => {
+      document.getElementById('locStatus').textContent = '⚠️ Izin lokasi ditolak. Menggunakan lokasi default Semarang.';
+      renderMarkets();
+    });
+  } else {
+    document.getElementById('locStatus').textContent = '❌ Geolokasi tidak didukung browser ini.';
+    renderMarkets();
+  }
+}
+
+function initMap() {
+  mapInstance = L.map('marketMap').setView([userLat,userLng],13);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    attribution:'© OpenStreetMap contributors',maxZoom:19
+  }).addTo(mapInstance);
+
+  const userIcon = L.divIcon({html:'<div style="background:var(--hl-accent);width:16px;height:16px;border-radius:50%;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3);"></div>',className:'',iconAnchor:[8,8]});
+  L.marker([userLat,userLng],{icon:userIcon}).addTo(mapInstance).bindPopup('<strong>📍 Lokasi Anda</strong>');
+
+  markets.forEach(m => {
+    const icon = L.divIcon({html:`<div style="background:var(--hl-green);color:white;border-radius:8px;padding:4px 8px;font-size:11px;font-weight:700;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.25);">🏪 ${m.name}</div>`,className:'',iconAnchor:[0,0]});
+    const dist = calcDist(userLat,userLng,m.lat,m.lng);
+    L.marker([m.lat,m.lng],{icon}).addTo(mapInstance)
+      .bindPopup(`<strong>${m.name}</strong><br>📍 ${m.address}<br>📏 ${dist} km<br>🕐 ${m.lastUpdate}<br><button onclick="openMarket(${m.id})" style="margin-top:6px;padding:4px 12px;background:var(--hl-green);color:white;border:none;border-radius:6px;cursor:pointer;font-size:12px;">Lihat Detail</button>`);
+  });
+  renderMarkets();
+}
+
+// ===================== MARKET DETAIL =====================
+function openMarket(id) {
+  currentMarket = id;
+  const m = markets.find(x=>x.id===id);
+  const dist = calcDist(userLat,userLng,m.lat,m.lng);
+  document.getElementById('detailName').textContent = m.name;
+  document.getElementById('detailAddr').textContent = `📍 ${m.address}, ${m.city}`;
+  document.getElementById('detailDist').textContent = `📏 ${dist} km dari lokasi Anda · 🕐 ${m.lastUpdate}`;
+  renderDetailTable(id);
+  showPage('detail');
+}
+
+function renderDetailTable(id, filter='', sort='') {
+  let rows = commodities.map(c=>({...c,price:prices[id][c.id]||0}));
+  if(filter) rows = rows.filter(r=>r.name.toLowerCase().includes(filter.toLowerCase()));
+  if(sort==='asc') rows.sort((a,b)=>a.price-b.price);
+  if(sort==='desc') rows.sort((a,b)=>b.price-a.price);
+
+  const priceArr = rows.map(r=>r.price);
+  const minP = Math.min(...priceArr), maxP = Math.max(...priceArr);
+
+  const tbody = document.getElementById('detailTableBody');
+  tbody.innerHTML = rows.map(r=>{
+    const cls = r.price===minP?'cheapest':r.price===maxP?'priciest':'';
+    const trendIcon = r.trend==='up'?'📈 Naik':r.trend==='down'?'📉 Turun':'➡ Stabil';
+    return `<tr><td>${r.icon} ${r.name}</td><td>${r.unit}</td><td class="${cls}">${fmt(r.price)}</td><td style="font-size:0.82rem;">${trendIcon}</td></tr>`;
+  }).join('');
+}
+
+function filterDetailTable() {
+  renderDetailTable(currentMarket, document.getElementById('detailSearch').value);
+}
+function sortDetailTable(v) {
+  renderDetailTable(currentMarket, document.getElementById('detailSearch').value, v);
+}
+
+// ===================== COMPARE =====================
+function renderCompareSelect() {
+  const el = document.getElementById('compareSelect');
+  el.innerHTML = markets.map(m=>`<button class="compare-btn ${selectedCompare.has(m.id)?'selected':''}" onclick="toggleCompare(${m.id},this)">🏪 ${m.name}</button>`).join('');
+}
+
+function toggleCompare(id, btn) {
+  if(selectedCompare.has(id)) {
+    if(selectedCompare.size<=2) { showToast('Pilih minimal 2 pasar'); return; }
+    selectedCompare.delete(id);
+    btn.classList.remove('selected');
+  } else {
+    if(selectedCompare.size>=3) { showToast('Maksimal 3 pasar'); return; }
+    selectedCompare.add(id);
+    btn.classList.add('selected');
+  }
+}
+
+function addToCompare(id) {
+  selectedCompare.add(id);
+  showPage('compare');
+  renderCompareSelect();
+  renderComparison();
+}
+
+function renderComparison() {
+  const sel = [...selectedCompare];
+  const selMarkets = sel.map(id=>markets.find(m=>m.id===id));
+  let html = '<div class="table-scroll"><table class="price-table" style="border-radius:14px;overflow:hidden;">';
+  html += `<thead><tr><th>Komoditas</th>${selMarkets.map(m=>`<th>🏪 ${m.name}</th>`).join('')}<th>Rata-rata</th></tr></thead><tbody>`;
+
+  let marketTotals = sel.map(()=>0);
+  commodities.forEach(c=>{
+    const rowPrices = sel.map(id=>prices[id][c.id]||0);
+    const minP = Math.min(...rowPrices), maxP = Math.max(...rowPrices);
+    const avg = Math.round(rowPrices.reduce((a,b)=>a+b,0)/rowPrices.length);
+    rowPrices.forEach((p,i)=>marketTotals[i]+=p);
+    html += `<tr><td>${c.icon} ${c.name}</td>${rowPrices.map(p=>{
+      const cls = p===minP?'cheapest':p===maxP?'priciest':'';
+      return `<td class="${cls}">${fmt(p)}</td>`;
+    }).join('')}<td style="color:var(--hl-muted);">${fmt(avg)}</td></tr>`;
+  });
+
+  const minTotal = Math.min(...marketTotals);
+  html += `<tr style="font-weight:800;background:#F1F8E9;"><td>💰 TOTAL</td>${marketTotals.map((t,i)=>`<td class="${t===minTotal?'cheapest':''}">${fmt(t)}</td>`).join('')}<td></td></tr>`;
+  html += '</tbody></table></div>';
+
+  // Savings
+  const winnerIdx = marketTotals.indexOf(minTotal);
+  const winnerMarket = selMarkets[winnerIdx];
+  const maxTotal = Math.max(...marketTotals);
+  const saving = maxTotal - minTotal;
+  html += `<div class="reco-card" style="margin-top:1rem;">
+    <div class="reco-title">🏆 Rekomendasi Berdasarkan Harga</div>
+    <div class="reco-market">🏪 ${winnerMarket.name}</div>
+    <div class="reco-saving">💰 Hemat hingga <strong>${fmt(saving)}</strong> dibanding pasar termahal!</div>
+    <div class="reco-badges"><span class="reco-badge">Harga Terbaik</span><span class="reco-badge">Total Terendah</span></div>
+  </div>`;
+
+  document.getElementById('compareResult').innerHTML = html;
+}
+
+// ===================== BASKET =====================
+function renderBasket() {
+  const el = document.getElementById('basketItems');
+  el.innerHTML = commodities.map(c=>`
+    <div class="basket-item">
+      <span class="chip-icon" style="font-size:1.4rem;">${c.icon}</span>
+      <span class="commodity-label">${c.name}</span>
+      <span class="unit-label">/${c.unit}</span>
+      <input type="number" id="bqty_${c.id}" value="0" min="0" step="0.5" placeholder="0">
+    </div>`).join('');
+}
+
+function calcBasket() {
+  const qty = {};
+  commodities.forEach(c=>{ qty[c.id]=parseFloat(document.getElementById('bqty_'+c.id).value)||0; });
+  
+  const hasItems = Object.values(qty).some(v=>v>0);
+  if(!hasItems) { showToast('Masukkan jumlah minimal satu komoditas'); return; }
+
+  const totals = markets.map(m=>{
+    let total=0;
+    commodities.forEach(c=>{ total += (prices[m.id][c.id]||0)*qty[c.id]; });
+    return { market:m, total:Math.round(total), dist:parseFloat(calcDist(userLat,userLng,m.lat,m.lng)) };
+  }).filter(x=>x.total>0);
+
+  totals.sort((a,b)=>a.total-b.total);
+  const best = totals[0], worst = totals[totals.length-1];
+  const saving = worst.total - best.total;
+
+  let html = `<div class="reco-card">
+    <div class="reco-title">✅ Rekomendasi Terbaik</div>
+    <div class="reco-market">🏪 ${best.market.name}</div>
+    <div class="reco-saving">Belanja di sini, Anda bisa <strong>hemat ${fmt(saving)}</strong> dibanding pilihan termahal!</div>
+    <div class="reco-badges"><span class="reco-badge">Total Terendah</span><span class="reco-badge">${best.dist} km</span></div>
+  </div>`;
+
+  html += '<div class="basket-result">';
+  totals.forEach((t,i)=>{
+    html += `<div class="basket-result-row ${i===0?'winner':''}">
+      <div>
+        ${i===0?'🏆':'🏪'} <span class="basket-market-name">${t.market.name}</span>
+        <div class="basket-dist">📏 ${t.dist} km · ${t.market.city}</div>
+      </div>
+      <div>
+        <span class="basket-total">${fmt(t.total)}</span>
+        ${i===0?'<div style="font-size:0.72rem;color:var(--hl-green);font-weight:700;text-align:right;">TERBAIK ✓</div>':''}
+      </div>
+    </div>`;
+  });
+  html += '</div>';
+
+  document.getElementById('basketResult').innerHTML = html;
+}
+
+// ===================== SMART RECOMMENDATION =====================
+function calcRecommendation() {
+  // Returns sorted markets with score
+  const allTotals = markets.map(m=>{
+    let total=0;
+    commodities.forEach(c=>{ total+=prices[m.id][c.id]||0; });
+    return total;
+  });
+  const minTotal=Math.min(...allTotals), maxTotal=Math.max(...allTotals);
+  const maxDist=Math.max(...markets.map(m=>parseFloat(calcDist(userLat,userLng,m.lat,m.lng))));
+
+  return markets.map((m,i)=>{
+    const dist=parseFloat(calcDist(userLat,userLng,m.lat,m.lng));
+    const priceScore=maxTotal===minTotal?100:Math.round((1-(allTotals[i]-minTotal)/(maxTotal-minTotal))*100);
+    const distScore=Math.round((1-dist/maxDist)*100);
+    const freshScore=m.lastUpdate.includes('jam')?90:m.lastUpdate.includes('1 hari')?60:40;
+    const total=Math.round(priceScore*0.5+distScore*0.3+freshScore*0.2);
+    return {market:m,score:total,priceScore,distScore,freshScore,dist,total:allTotals[i]};
+  }).sort((a,b)=>b.score-a.score);
+}
+
+// ===================== ANALYTICS =====================
+function initAnalyticsSelects() {
+  const sel = document.getElementById('analyticsCommodity');
+  if(sel.options.length>0) return;
+  commodities.forEach(c=>{ sel.innerHTML+=`<option value="${c.id}">${c.icon} ${c.name}</option>`; });
+}
+
+function linearRegression(y) {
+  const n=y.length, x=y.map((_,i)=>i);
+  const sumX=x.reduce((a,b)=>a+b,0), sumY=y.reduce((a,b)=>a+b,0);
+  const sumXY=x.reduce((s,xi,i)=>s+xi*y[i],0), sumX2=x.reduce((s,xi)=>s+xi**2,0);
+  const m=(n*sumXY-sumX*sumY)/(n*sumX2-sumX**2);
+  const b=(sumY-m*sumX)/n;
+  return {m,b,predict:xi=>Math.round(m*xi+b)};
+}
+
+function renderAnalytics() {
+  const cid = parseInt(document.getElementById('analyticsCommodity').value||1);
+  const hist = priceHistory[cid];
+  const c = commodities.find(x=>x.id===cid);
+  const reg = linearRegression(hist);
+  const nextWeek = reg.predict(hist.length);
+
+  document.getElementById('predCurrent').textContent = fmt(hist[hist.length-1]);
+  document.getElementById('predNext').textContent = fmt(nextWeek);
+  const diff = nextWeek-hist[hist.length-1];
+  document.getElementById('predStatus').textContent = c.trend==='up'?'📈 Tren naik':c.trend==='down'?'📉 Tren turun':'➡ Stabil';
+  document.getElementById('predChange').textContent = diff>0?`📈 Naik ${fmt(diff)} dari minggu ini`:diff<0?`📉 Turun ${fmt(Math.abs(diff))} dari minggu ini`:`➡ Stabil`;
+
+  // Trend chart
+  if(trendChartInst) trendChartInst.destroy();
+  const tCtx = document.getElementById('trendChart').getContext('2d');
+  trendChartInst = new Chart(tCtx,{
+    type:'line',
+    data:{labels:weekLabels,datasets:[{label:`${c.name} (${c.unit})`,data:hist,borderColor:'#2E7D32',backgroundColor:'rgba(46,125,50,0.08)',borderWidth:2.5,pointRadius:4,pointBackgroundColor:'#2E7D32',tension:0.3}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{ticks:{callback:v=>'Rp'+v.toLocaleString('id-ID')}}}}
+  });
+
+  // Prediction chart
+  if(predChartInst) predChartInst.destroy();
+  const pCtx = document.getElementById('predChart').getContext('2d');
+  const predLine = weekLabels.map((_,i)=>reg.predict(i));
+  const allLabels = [...weekLabels,'Prediksi'];
+  const allData = [...hist,null];
+  const predData = [...Array(hist.length).fill(null),nextWeek];
+  const regressionData = [...predLine,nextWeek];
+
+  predChartInst = new Chart(pCtx,{
+    type:'line',
+    data:{labels:allLabels,datasets:[
+      {label:'Harga Aktual',data:[...hist,null],borderColor:'#2E7D32',backgroundColor:'rgba(46,125,50,0.08)',borderWidth:2,pointRadius:4,pointBackgroundColor:'#2E7D32',tension:0.2},
+      {label:'Regresi Linear',data:regressionData,borderColor:'#FF8F00',borderDash:[5,5],borderWidth:1.5,pointRadius:0,tension:0},
+      {label:'Prediksi',data:[...Array(hist.length).fill(null),nextWeek],borderColor:'#E65100',backgroundColor:'rgba(230,81,0,0.15)',pointRadius:7,pointBackgroundColor:'#E65100',borderWidth:0},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{usePointStyle:true,pointStyle:'rect',font:{size:11}}}},scales:{y:{ticks:{callback:v=>v?'Rp'+v.toLocaleString('id-ID'):''}}}}
+  });
+}
+
+// ===================== REPORT =====================
+function initReport() {
+  const rm = document.getElementById('repMarket');
+  const rc = document.getElementById('repCommodity');
+  if(!rm.options.length) markets.forEach(m=>rm.innerHTML+=`<option value="${m.id}">${m.name}</option>`);
+  if(!rc.options.length) commodities.forEach(c=>rc.innerHTML+=`<option value="${c.id}">${c.icon} ${c.name}</option>`);
+  document.getElementById('repDate').value = new Date().toISOString().split('T')[0];
+  renderMyReports();
+}
+
+function submitReport() {
+  const mid=parseInt(document.getElementById('repMarket').value);
+  const cid=parseInt(document.getElementById('repCommodity').value);
+  const price=parseInt(document.getElementById('repPrice').value);
+  const date=document.getElementById('repDate').value;
+
+  if(!price || price<=0) { showToast('⚠️ Harga harus lebih dari 0'); return; }
+  if(!date) { showToast('⚠️ Tanggal wajib diisi'); return; }
+
+  const market = markets.find(m=>m.id===mid);
+  const comm = commodities.find(c=>c.id===cid);
+  reportsList.push({id:reportsList.length+1, market:market.name, commodity:comm.name, price, date, status:'pending'});
+  document.getElementById('repPrice').value='';
+  showToast('✅ Laporan berhasil dikirim! Menunggu verifikasi.');
+  renderMyReports();
+}
+
+function renderMyReports() {
+  const el = document.getElementById('myReports');
+  if(!reportsList.length) { el.innerHTML='<p style="color:var(--hl-muted);font-size:0.88rem;">Belum ada laporan. Jadilah yang pertama melaporkan harga!</p>'; return; }
+  el.innerHTML = reportsList.map(r=>`<div class="report-row">
+    <span>🏪 ${r.market} — ${r.commodity}</span>
+    <span>${fmt(r.price)}</span>
+    <span>${r.date}</span>
+    <span class="${r.status==='pending'?'badge-pending':r.status==='approved'?'badge-approved':'badge-rejected'}">${r.status==='pending'?'Menunggu':r.status==='approved'?'Disetujui':'Ditolak'}</span>
+  </div>`).join('');
+}
+
+// ===================== ADMIN =====================
+function renderAdmin() {
+  document.getElementById('adminReports').textContent = reportsList.length;
+
+  // Market table
+  const tbody = document.getElementById('adminMarketTable');
+  tbody.innerHTML = markets.map(m=>`<tr><td>${m.id}</td><td>${m.name}</td><td>${m.city}</td><td style="font-size:0.78rem;color:var(--hl-muted);">${m.lat.toFixed(4)}, ${m.lng.toFixed(4)}</td></tr>`).join('');
+
+  // Report list
+  const el = document.getElementById('adminReportList');
+  const allReports = [
+    {market:'Pasar Johar',commodity:'Beras',price:14500,date:'2025-06-09',status:'approved'},
+    {market:'Pasar Peterongan',commodity:'Cabai',price:35000,date:'2025-06-08',status:'approved'},
+    {market:'Pasar Bulu',commodity:'Telur',price:27500,date:'2025-06-08',status:'pending'},
+    ...reportsList
+  ];
+  if(!allReports.length) { el.innerHTML='<p style="color:var(--hl-muted);">Belum ada laporan.</p>'; return; }
+  el.innerHTML = allReports.map((r,i)=>`<div class="report-row">
+    <span>🏪 <strong>${r.market}</strong> — ${r.commodity}</span>
+    <span>${fmt(r.price)}</span>
+    <span style="color:var(--hl-muted);font-size:0.78rem;">${r.date}</span>
+    <span class="${r.status==='pending'?'badge-pending':r.status==='approved'?'badge-approved':'badge-rejected'}">${r.status==='pending'?'Menunggu':r.status==='approved'?'Disetujui':'Ditolak'}</span>
+    ${r.status==='pending'?`<button onclick="approveReport(${i},'approved')" style="padding:3px 10px;background:var(--hl-green);color:white;border:none;border-radius:6px;cursor:pointer;font-size:0.72rem;">✓ Setujui</button><button onclick="approveReport(${i},'rejected')" style="padding:3px 10px;background:#e53935;color:white;border:none;border-radius:6px;cursor:pointer;font-size:0.72rem;margin-left:4px;">✗ Tolak</button>`:''}
+  </div>`).join('');
+}
+
+function approveReport(i, status) {
+  const baseCount = 3;
+  if(i>=baseCount && reportsList[i-baseCount]) {
+    reportsList[i-baseCount].status = status;
+  }
+  renderAdmin();
+  renderMyReports();
+  showToast(status==='approved'?'✅ Laporan disetujui':'❌ Laporan ditolak');
+}
+
+// ===================== INIT =====================
+renderHome();
+renderMarkets();
+renderBasket();
+renderCompareSelect();
+
+// Auto-render compare page
+setTimeout(()=>renderComparison(), 100);
+
+// Recommendation section on home
+const reco = calcRecommendation();
+if(reco.length) {
+  const best = reco[0];
+  document.getElementById('featuredMarkets').insertAdjacentHTML('afterend', `
+    <div class="section-title" style="margin-top:1rem;">🤖 Rekomendasi Cerdas Hari Ini</div>
+    <div class="reco-card">
+      <div class="reco-title">⭐ REKOMENDASI TERBAIK — Skor ${best.score}/100</div>
+      <div class="reco-market">🏪 ${best.market.name}</div>
+      <div class="reco-saving">📏 ${best.dist} km · Harga lebih rendah & data terkini</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px;">
+        ${[['Skor Harga',best.priceScore,'#2E7D32'],['Skor Jarak',best.distScore,'#1565C0'],['Skor Kebaruan',best.freshScore,'#E65100']].map(([lbl,val,col])=>`
+        <div>
+          <div style="font-size:0.72rem;color:var(--hl-muted);">${lbl}</div>
+          <div style="font-weight:700;font-size:1rem;color:${col};">${val}</div>
+          <div class="score-bar"><div class="score-fill" style="width:${val}%;background:${col};"></div></div>
+        </div>`).join('')}
+      </div>
+      <div class="reco-badges">
+        <span class="reco-badge">Harga Terbaik</span>
+        <span class="reco-badge">Lokasi Strategis</span>
+        <span class="reco-badge">Data Terkini</span>
+      </div>
+    </div>
+  `);
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
