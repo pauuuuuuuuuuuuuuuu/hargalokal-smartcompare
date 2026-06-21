@@ -164,6 +164,93 @@ body { font-family: 'Segoe UI', sans-serif; background: var(--hl-bg); color: var
 .hl-toast { position: fixed; bottom: 20px; right: 20px; background: var(--hl-green); color: white; padding: 12px 20px; border-radius: 10px; font-weight: 600; z-index: 9999; font-size: 0.88rem; animation: slideUp 0.3s ease; max-width: 300px; }
 @keyframes slideUp { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
 
+/* ===== FITUR BARU ===== */
+
+/* ROLE DIAGRAM */
+.role-flow { display: flex; gap: 0; margin-bottom: 1.5rem; flex-wrap: wrap; border-radius: 14px; overflow: hidden; border: 1px solid var(--hl-border); }
+.role-box { flex: 1; min-width: 150px; padding: 1rem 1rem; text-align: center; position: relative; }
+.role-box.role-user { background: linear-gradient(135deg, #E3F2FD, #BBDEFB); }
+.role-box.role-merchant { background: linear-gradient(135deg, #FFF9C4, #FFF176); }
+.role-box.role-admin { background: linear-gradient(135deg, #E8F5E9, #C8E6C9); }
+.role-box .role-icon { font-size: 2rem; margin-bottom: 6px; }
+.role-box .role-name { font-weight: 800; font-size: 0.9rem; margin-bottom: 4px; }
+.role-box .role-desc { font-size: 0.75rem; color: var(--hl-muted); line-height: 1.4; }
+.role-box .role-action { margin-top: 8px; background: rgba(255,255,255,0.7); border-radius: 8px; padding: 4px 8px; font-size: 0.72rem; font-weight: 700; }
+.role-arrow { display: flex; align-items: center; justify-content: center; padding: 0 6px; font-size: 1.4rem; color: var(--hl-muted); background: white; }
+.role-flow-title { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--hl-muted); margin-bottom: 8px; }
+
+/* MARKET POPUP MODAL */
+.market-modal-overlay { position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.5); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 1rem; animation: fadeIn 0.2s ease; }
+.market-modal { background: white; border-radius: 20px; max-width: 440px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+.market-modal-img { width: 100%; height: 160px; object-fit: cover; border-radius: 20px 20px 0 0; background: linear-gradient(135deg, #1B5E20 0%, #4CAF50 100%); display: flex; align-items: center; justify-content: center; font-size: 4rem; }
+.market-modal-body { padding: 1.2rem; }
+.market-modal-name { font-size: 1.3rem; font-weight: 800; color: var(--hl-green); margin-bottom: 4px; }
+.market-modal-row { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px; font-size: 0.86rem; }
+.market-modal-row .icon { width: 20px; text-align: center; flex-shrink: 0; margin-top: 1px; }
+.market-modal-row .text { color: var(--hl-text); }
+.market-modal-row .text .muted { color: var(--hl-muted); font-size: 0.78rem; }
+.market-modal-stars { color: #FFC107; font-size: 0.9rem; }
+.market-modal-badges { display: flex; gap: 6px; flex-wrap: wrap; margin: 10px 0; }
+.market-modal-badge { background: #F1F8E9; border: 1px solid #C8E6C9; border-radius: 20px; padding: 3px 10px; font-size: 0.74rem; color: var(--hl-green); font-weight: 600; }
+.market-modal-cheapest { background: #E8F5E9; border-radius: 10px; padding: 10px 12px; margin: 10px 0; }
+.market-modal-cheapest .label { font-size: 0.72rem; color: var(--hl-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.market-modal-cheapest .item { font-size: 0.9rem; font-weight: 700; color: var(--hl-green); margin-top: 2px; }
+.market-modal-actions { display: flex; gap: 10px; margin-top: 14px; }
+.market-modal-actions button { flex: 1; padding: 10px; border-radius: 10px; border: none; font-weight: 700; cursor: pointer; font-size: 0.88rem; }
+.btn-modal-detail { background: var(--hl-green); color: white !important; }
+.btn-modal-compare { background: var(--hl-accent); color: #1a2332 !important; }
+.market-modal-close { position: absolute; top: 10px; right: 14px; background: rgba(0,0,0,0.4); border: none; color: white; border-radius: 50%; width: 30px; height: 30px; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.modal-img-wrap { position: relative; }
+
+/* PERSONALISASI */
+.persona-card { background: white; border-radius: 16px; border: 1px solid var(--hl-border); padding: 1.2rem; margin-bottom: 1rem; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+.persona-insight { background: linear-gradient(135deg, #E8F5E9, #F1F8E9); border-left: 4px solid var(--hl-green); border-radius: 0 12px 12px 0; padding: 12px 16px; margin-top: 10px; font-size: 0.88rem; line-height: 1.5; }
+.persona-insight strong { color: var(--hl-green); }
+.persona-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.persona-tag { background: #E8F5E9; border: 1px solid #A5D6A7; border-radius: 20px; padding: 4px 12px; font-size: 0.76rem; color: #1B5E20; font-weight: 600; }
+.persona-field-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; align-items: flex-end; }
+.persona-field { flex: 1; min-width: 120px; }
+.persona-field label { font-size: 0.78rem; font-weight: 600; color: var(--hl-muted); display: block; margin-bottom: 4px; }
+.persona-field input, .persona-field select { width: 100%; border: 1.5px solid #ddd; border-radius: 8px; padding: 8px 10px; font-size: 0.85rem; }
+
+/* FAVORIT PASAR */
+.fav-btn { background: none; border: 1.5px solid #ddd; border-radius: 50%; width: 32px; height: 32px; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; }
+.fav-btn.active { border-color: #e53935; background: #FFEBEE; }
+.fav-strip { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 1rem; }
+.fav-chip { background: white; border: 1.5px solid var(--hl-border); border-radius: 20px; padding: 6px 14px; font-size: 0.84rem; font-weight: 600; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: all 0.2s; }
+.fav-chip:hover { border-color: var(--hl-green); background: #F1F8E9; }
+.fav-chip .fav-x { color: #e53935; font-size: 0.8rem; margin-left: 4px; }
+.fav-empty { color: var(--hl-muted); font-size: 0.85rem; font-style: italic; padding: 8px 0; }
+
+/* AI INSIGHT CARD */
+.ai-card { background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #388E3C 100%); border-radius: 16px; padding: 1.2rem 1.4rem; color: white; margin-bottom: 1rem; position: relative; overflow: hidden; }
+.ai-card::before { content: ''; position: absolute; top: -30px; right: -30px; width: 100px; height: 100px; background: rgba(255,255,255,0.07); border-radius: 50%; }
+.ai-card::after { content: ''; position: absolute; bottom: -20px; right: 40px; width: 60px; height: 60px; background: rgba(255,255,255,0.05); border-radius: 50%; }
+.ai-card-label { font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.75; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+.ai-card-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 6px; }
+.ai-card-text { font-size: 0.86rem; opacity: 0.9; line-height: 1.5; margin-bottom: 10px; }
+.ai-scores { display: flex; gap: 10px; flex-wrap: wrap; }
+.ai-score-item { background: rgba(255,255,255,0.12); border-radius: 10px; padding: 8px 12px; flex: 1; min-width: 80px; }
+.ai-score-item .val { font-size: 1.1rem; font-weight: 800; }
+.ai-score-item .lbl { font-size: 0.68rem; opacity: 0.8; margin-top: 2px; }
+.ai-score-bar { height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; margin-top: 6px; overflow: hidden; }
+.ai-score-fill { height: 100%; background: var(--hl-accent); border-radius: 2px; transition: width 1s ease; }
+
+/* MERCHANT PANEL */
+.merchant-panel { background: linear-gradient(135deg, #FFFDE7, #FFF9C4); border: 2px solid var(--hl-accent); border-radius: 14px; padding: 1.2rem; margin-bottom: 1.2rem; }
+.merchant-panel-title { font-weight: 800; font-size: 0.95rem; color: #827717; margin-bottom: 4px; }
+.merchant-panel-desc { font-size: 0.82rem; color: #5D4037; margin-bottom: 10px; }
+
+/* ADMIN ROLE PANEL */
+.admin-role-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.admin-role-card { flex: 1; min-width: 140px; border-radius: 12px; padding: 1rem; border: 1.5px solid transparent; }
+.admin-role-card.card-user { background: #E3F2FD; border-color: #90CAF9; }
+.admin-role-card.card-merchant { background: #FFF9C4; border-color: #FFF176; }
+.admin-role-card.card-admin { background: #E8F5E9; border-color: #A5D6A7; }
+.admin-role-card .r-icon { font-size: 1.8rem; margin-bottom: 6px; }
+.admin-role-card .r-title { font-weight: 800; font-size: 0.88rem; margin-bottom: 3px; }
+.admin-role-card .r-list { font-size: 0.75rem; color: var(--hl-muted); line-height: 1.6; }
+
 /* DETAIL PAGE */
 .detail-header { background: var(--hl-green); color: white; padding: 1.5rem 1rem; }
 .detail-back { background: rgba(255,255,255,0.2); border: none; color: white; border-radius: 8px; padding: 6px 14px; cursor: pointer; font-size: 0.85rem; margin-bottom: 10px; }
@@ -181,9 +268,105 @@ button {
     color: #1a2332 !important;
 }
 
+/* ===== LOGIN PAGE ===== */
+#loginOverlay {
+  position: fixed; inset: 0; z-index: 99999;
+  background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #388E3C 100%);
+  display: flex; align-items: center; justify-content: center; padding: 1rem;
+}
+.login-card {
+  background: #fff; border-radius: 20px; padding: 2.2rem 2rem 2rem;
+  width: 100%; max-width: 400px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.3);
+  animation: loginFadeIn 0.4s ease;
+}
+@keyframes loginFadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+.login-logo { text-align: center; margin-bottom: 1.4rem; }
+.login-logo .logo-text { font-size: 1.5rem; font-weight: 800; color: var(--hl-green); }
+.login-logo .logo-sub { font-size: 0.82rem; color: var(--hl-muted); margin-top: 4px; }
+.login-label { font-size: 0.82rem; font-weight: 700; color: var(--hl-muted); margin-bottom: 5px; display: block; }
+.login-input {
+  width: 100%; border: 1.5px solid #ddd; border-radius: 10px;
+  padding: 11px 14px; font-size: 0.92rem; margin-bottom: 14px;
+  transition: border-color 0.2s; outline: none;
+  color: #1a2332;
+}
+.login-input:focus { border-color: var(--hl-green); box-shadow: 0 0 0 3px rgba(46,125,50,0.12); }
+.login-btn {
+  width: 100%; background: var(--hl-green); color: #fff !important;
+  border: none; border-radius: 10px; padding: 12px; font-size: 1rem;
+  font-weight: 700; cursor: pointer; margin-top: 4px; transition: background 0.2s;
+}
+.login-btn:hover { background: #1B5E20; }
+.login-error {
+  background: #FFEBEE; color: #b71c1c; border-radius: 8px;
+  padding: 8px 12px; font-size: 0.85rem; margin-bottom: 12px; display: none;
+}
+.login-demo {
+  margin-top: 1.2rem; background: #F1F8E9; border-radius: 10px;
+  padding: 12px 14px; font-size: 0.78rem; color: #1B5E20;
+}
+.login-demo strong { display: block; margin-bottom: 6px; color: var(--hl-green); font-size: 0.82rem; }
+.demo-row { display: flex; justify-content: space-between; padding: 3px 0; border-bottom: 1px solid #C8E6C9; cursor: pointer; border-radius: 4px; transition: background 0.15s; }
+.demo-row:last-child { border-bottom: none; }
+.demo-row:hover { background: #C8E6C9; padding: 3px 4px; }
+.demo-role-tag { font-weight: 700; }
+
+/* ===== NAVBAR USER PROFILE ===== */
+.nav-user-profile {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.15); border-radius: 8px;
+  padding: 5px 10px; margin-left: 8px; white-space: nowrap;
+}
+.nav-user-name { color: #fff; font-size: 0.8rem; font-weight: 700; line-height: 1.2; }
+.nav-user-role { color: rgba(255,255,255,0.75); font-size: 0.68rem; font-weight: 500; }
+.nav-logout-btn {
+  background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3);
+  color: #fff !important; border-radius: 6px; padding: 4px 10px; font-size: 0.74rem;
+  font-weight: 600; cursor: pointer; margin-left: 6px; transition: all 0.2s;
+}
+.nav-logout-btn:hover { background: rgba(255,255,255,0.35); }
+.nav-right { display: flex; align-items: center; }
+
+/* ===== ACCESS DENIED ===== */
+.access-denied {
+  max-width: 500px; margin: 4rem auto; text-align: center; padding: 2rem;
+}
+.access-denied .ad-icon { font-size: 4rem; margin-bottom: 1rem; }
+.access-denied h2 { color: #b71c1c; font-size: 1.4rem; margin-bottom: 0.5rem; }
+.access-denied p { color: var(--hl-muted); font-size: 0.92rem; margin-bottom: 1.5rem; }
 </style>
 </head>
 <body>
+
+<!-- ===== LOGIN OVERLAY ===== -->
+<div id="loginOverlay">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="logo-text">🌿 HargaLokal <span style="background:#FFC107;color:#1B5E20;border-radius:6px;padding:2px 8px;font-size:0.78rem;">SMART</span></div>
+      <div class="logo-sub">Sistem Informasi Harga Pasar Tradisional</div>
+    </div>
+    <div class="login-error" id="loginError">❌ Email atau password salah. Silakan coba lagi.</div>
+    <label class="login-label" for="loginEmail">📧 Email</label>
+    <input class="login-input" type="email" id="loginEmail" placeholder="email@hargalokal.id" autocomplete="email">
+    <label class="login-label" for="loginPassword">🔒 Password</label>
+    <input class="login-input" type="password" id="loginPassword" placeholder="••••••" autocomplete="current-password"
+      onkeydown="if(event.key==='Enter') doLogin()">
+    <button class="login-btn" onclick="doLogin()">🔐 Masuk</button>
+    <div class="login-demo">
+      <strong>🎯 Demo Akun (klik untuk isi otomatis):</strong>
+      <div class="demo-row" onclick="fillDemo('user@hargalokal.id','123456')">
+        <span>👤 <span class="demo-role-tag">Pengguna</span> — user@hargalokal.id</span><span style="color:var(--hl-muted);">123456</span>
+      </div>
+      <div class="demo-row" onclick="fillDemo('merchant@hargalokal.id','123456')">
+        <span>🏪 <span class="demo-role-tag">Petugas Pasar</span> — merchant@hargalokal.id</span><span style="color:var(--hl-muted);">123456</span>
+      </div>
+      <div class="demo-row" onclick="fillDemo('admin@hargalokal.id','123456')">
+        <span>⚙️ <span class="demo-role-tag">Admin</span> — admin@hargalokal.id</span><span style="color:var(--hl-muted);">123456</span>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- NAVIGATION -->
 <nav class="hl-nav">
@@ -191,15 +374,18 @@ button {
     <a class="hl-logo" href="#" onclick="showPage('home')">
       🌿 HargaLokal <span class="leaf">SMART</span>
     </a>
-    <ul class="nav-tabs-hl">
-      <li><button class="nav-link active" onclick="showPage('home',this)">Beranda</button></li>
-      <li><button class="nav-link" onclick="showPage('markets',this)">📍 Pasar</button></li>
-      <li><button class="nav-link" onclick="showPage('compare',this)">⚖️ Bandingkan</button></li>
-      <li><button class="nav-link" onclick="showPage('basket',this)">🛒 Keranjang</button></li>
-      <li><button class="nav-link" onclick="showPage('analytics',this)">📈 Analitik</button></li>
-      <li><button class="nav-link" onclick="showPage('report',this)">📝 Lapor</button></li>
-      <li><button class="nav-link" onclick="showPage('admin',this)">⚙️ Admin</button></li>
+    <ul class="nav-tabs-hl" id="navMenuList">
+      <!-- filled by renderNavMenu() -->
     </ul>
+    <div class="nav-right">
+      <div class="nav-user-profile" id="navUserProfile" style="display:none;">
+        <div>
+          <div class="nav-user-name" id="navUserName">—</div>
+          <div class="nav-user-role" id="navUserRoleLabel">—</div>
+        </div>
+        <button class="nav-logout-btn" onclick="doLogout()">Keluar</button>
+      </div>
+    </div>
   </div>
 </nav>
 
@@ -231,6 +417,47 @@ button {
     <!-- FEATURED MARKETS -->
     <div class="section-title">🏪 Pasar Unggulan</div>
     <div class="market-grid" id="featuredMarkets"></div>
+
+    <!-- FAVORIT PASAR -->
+    <div class="section-title">❤️ Pasar Favorit Saya</div>
+    <div id="favStrip"><span class="fav-empty">Belum ada pasar favorit. Klik ❤️ pada kartu pasar untuk menyimpan.</span></div>
+
+    <!-- PERSONALISASI -->
+    <div class="section-title" style="margin-top:0.5rem;">👤 Rekomendasi Untuk Anda</div>
+    <div class="persona-card">
+      <div style="font-size:0.82rem;color:var(--hl-muted);margin-bottom:10px;">Sesuaikan preferensi Anda untuk rekomendasi yang lebih akurat</div>
+      <div class="persona-field-row">
+        <div class="persona-field">
+          <label>📍 Lokasi Anda</label>
+          <select id="personaLokasi" onchange="renderPersonaInsight()">
+            <option value="Banyumanik">Banyumanik</option>
+            <option value="Semarang Tengah">Semarang Tengah</option>
+            <option value="Semarang Barat">Semarang Barat</option>
+            <option value="Semarang Selatan">Semarang Selatan</option>
+            <option value="Gayamsari">Gayamsari</option>
+          </select>
+        </div>
+        <div class="persona-field">
+          <label>💰 Budget Belanja</label>
+          <select id="personaBudget" onchange="renderPersonaInsight()">
+            <option value="100000">Rp100.000</option>
+            <option value="150000" selected>Rp150.000</option>
+            <option value="200000">Rp200.000</option>
+            <option value="300000">Rp300.000</option>
+          </select>
+        </div>
+        <div class="persona-field">
+          <label>🏪 Pasar Favorit</label>
+          <select id="personaFavorit" onchange="renderPersonaInsight()">
+            <option value="Pasar Johar">Pasar Johar</option>
+            <option value="Pasar Peterongan">Pasar Peterongan</option>
+            <option value="Pasar Karangayu">Pasar Karangayu</option>
+            <option value="Pasar Bulu">Pasar Bulu</option>
+          </select>
+        </div>
+      </div>
+      <div id="personaInsightBox"></div>
+    </div>
 
     <!-- LATEST UPDATES -->
     <div class="section-title">🕐 Update Harga Terbaru</div>
@@ -354,7 +581,38 @@ button {
 <div id="page-report" class="page">
   <div class="section">
     <div class="section-title">📝 Laporkan Harga Pasar</div>
+
+    <!-- ROLE DIAGRAM -->
+    <div class="role-flow-title">Alur Pelaporan & Verifikasi Harga</div>
+    <div class="role-flow">
+      <div class="role-box role-user">
+        <div class="role-icon">👤</div>
+        <div class="role-name">Pengguna Umum</div>
+        <div class="role-desc">Melaporkan harga yang ditemukan di pasar</div>
+        <div class="role-action">📤 Kirim Laporan</div>
+      </div>
+      <div class="role-arrow">→</div>
+      <div class="role-box role-merchant">
+        <div class="role-icon">🏪</div>
+        <div class="role-name">Petugas Pasar</div>
+        <div class="role-desc">Mengupdate harga resmi pasar secara langsung</div>
+        <div class="role-action">✏️ Update Harga Resmi</div>
+      </div>
+      <div class="role-arrow">→</div>
+      <div class="role-box role-admin">
+        <div class="role-icon">⚙️</div>
+        <div class="role-name">Admin</div>
+        <div class="role-desc">Memverifikasi laporan dan menyetujui perubahan harga</div>
+        <div class="role-action">✅ Verifikasi & Setujui</div>
+      </div>
+    </div>
+
+    <!-- USER REPORT FORM -->
     <div class="report-form">
+      <div style="background:#E3F2FD;border-radius:8px;padding:10px 12px;margin-bottom:14px;display:flex;align-items:center;gap:8px;font-size:0.83rem;">
+        <span>👤</span>
+        <span><strong>Mode: Pengguna Umum</strong> — Laporan Anda akan diverifikasi oleh Admin sebelum ditampilkan.</span>
+      </div>
       <label style="font-size:0.85rem;font-weight:600;color:var(--hl-muted);margin-bottom:4px;display:block;">Pilih Pasar</label>
       <select class="form-select" id="repMarket"></select>
       <label style="font-size:0.85rem;font-weight:600;color:var(--hl-muted);margin-bottom:4px;display:block;">Komoditas</label>
@@ -365,6 +623,21 @@ button {
       <input class="form-control" type="date" id="repDate">
       <button class="btn-hl" style="width:100%;margin-top:8px;" onclick="submitReport()">📤 Kirim Laporan</button>
     </div>
+
+    <!-- MERCHANT PANEL -->
+    <div class="merchant-panel" style="margin-top:1.2rem;">
+      <div class="merchant-panel-title">🏪 Panel Petugas Pasar (Merchant)</div>
+      <div class="merchant-panel-desc">Sebagai petugas pasar resmi, Anda dapat mengupdate harga langsung tanpa perlu diverifikasi admin.</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <select class="form-select" id="merchantMarket" style="max-width:200px;margin-bottom:0;">
+          <option value="">Pilih Pasar Anda...</option>
+        </select>
+        <select class="form-select" id="merchantCommodity" style="max-width:180px;margin-bottom:0;"></select>
+        <input class="form-control" type="number" id="merchantPrice" placeholder="Harga resmi (Rp)" style="max-width:160px;margin-bottom:0;">
+        <button class="btn-accent" style="border-radius:10px;padding:10px 18px;font-weight:700;cursor:pointer;" onclick="submitMerchantPrice()">✏️ Update Harga Resmi</button>
+      </div>
+    </div>
+
     <div class="section-title" style="margin-top:1.5rem;">Laporan Saya</div>
     <div id="myReports"></div>
   </div>
@@ -374,6 +647,27 @@ button {
 <div id="page-admin" class="page">
   <div class="section">
     <div class="section-title">⚙️ Admin Dashboard</div>
+
+    <!-- ROLE OVERVIEW -->
+    <div class="role-flow-title" style="margin-top:0;">Struktur Peran Pengguna Sistem</div>
+    <div class="admin-role-row">
+      <div class="admin-role-card card-user">
+        <div class="r-icon">👤</div>
+        <div class="r-title" style="color:#1565C0;">Pengguna Umum</div>
+        <div class="r-list">• Kirim laporan harga<br>• Cek harga pasar<br>• Akses perbandingan</div>
+      </div>
+      <div class="admin-role-card card-merchant">
+        <div class="r-icon">🏪</div>
+        <div class="r-title" style="color:#827717;">Petugas Pasar</div>
+        <div class="r-list">• Update harga resmi<br>• Kelola data komoditas<br>• Laporan langsung</div>
+      </div>
+      <div class="admin-role-card card-admin">
+        <div class="r-icon">⚙️</div>
+        <div class="r-title" style="color:var(--hl-green);">Admin</div>
+        <div class="r-list">• Verifikasi laporan<br>• Kelola semua data<br>• Monitor sistem</div>
+      </div>
+    </div>
+
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-bottom:1.5rem;">
       <div class="admin-stat"><div class="num" style="color:#1565C0;">48</div><div class="lbl">Total Pengguna</div></div>
       <div class="admin-stat"><div class="num" style="color:var(--hl-green);" id="adminMarkets">12</div><div class="lbl">Total Pasar</div></div>
@@ -381,7 +675,15 @@ button {
       <div class="admin-stat"><div class="num" style="color:#E65100;" id="adminReports">0</div><div class="lbl">Total Laporan</div></div>
     </div>
 
+    <!-- AI INSIGHT CARDS ADMIN -->
+    <div class="section-title">🤖 AI SmartCompare Insight</div>
+    <div id="adminAiCards"></div>
+
     <div class="section-title">Kelola Laporan Harga</div>
+    <div style="font-size:0.8rem;color:var(--hl-muted);margin-bottom:8px;background:#FFF9C4;border-radius:8px;padding:8px 12px;">
+      ⚠️ Laporan dari <strong>Pengguna Umum</strong> memerlukan verifikasi Anda sebelum harga resmi diperbarui.
+      Laporan dari <strong>Petugas Pasar</strong> langsung tersimpan sebagai harga resmi.
+    </div>
     <div id="adminReportList"></div>
 
     <div class="section-title" style="margin-top:1.5rem;">Kelola Data Pasar</div>
@@ -394,12 +696,244 @@ button {
   </div>
 </div>
 
+<!-- ===== MERCHANT PANEL PAGE ===== -->
+<div id="page-merchant" class="page">
+  <div class="section">
+    <div class="section-title">🏪 Panel Petugas Pasar</div>
+    <div style="background:linear-gradient(135deg,#FFFDE7,#FFF9C4);border:2px solid var(--hl-accent);border-radius:14px;padding:1.2rem;margin-bottom:1.5rem;">
+      <div style="font-weight:800;font-size:0.95rem;color:#827717;margin-bottom:6px;">👋 Selamat datang, Petugas Pasar!</div>
+      <div style="font-size:0.85rem;color:#5D4037;">Sebagai petugas pasar resmi, Anda dapat mengupdate harga langsung tanpa perlu diverifikasi admin. Perubahan harga akan langsung tampil di sistem.</div>
+    </div>
+    <div class="merchant-panel">
+      <div class="merchant-panel-title">✏️ Update Harga Komoditas</div>
+      <div class="merchant-panel-desc">Pilih pasar dan komoditas, lalu masukkan harga terkini.</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;">
+        <div style="flex:1;min-width:160px;">
+          <label style="font-size:0.78rem;font-weight:600;color:var(--hl-muted);display:block;margin-bottom:4px;">Pasar</label>
+          <select class="form-select" id="merchantMarket2" style="margin-bottom:0;"></select>
+        </div>
+        <div style="flex:1;min-width:160px;">
+          <label style="font-size:0.78rem;font-weight:600;color:var(--hl-muted);display:block;margin-bottom:4px;">Komoditas</label>
+          <select class="form-select" id="merchantCommodity2" style="margin-bottom:0;"></select>
+        </div>
+        <div style="flex:1;min-width:130px;">
+          <label style="font-size:0.78rem;font-weight:600;color:var(--hl-muted);display:block;margin-bottom:4px;">Harga Resmi (Rp)</label>
+          <input class="form-control" type="number" id="merchantPrice2" placeholder="Contoh: 14500" style="margin-bottom:0;">
+        </div>
+        <button class="btn-accent" style="border-radius:10px;padding:10px 18px;font-weight:700;cursor:pointer;white-space:nowrap;" onclick="submitMerchantPrice2()">✏️ Update Harga</button>
+      </div>
+    </div>
+    <div class="section-title" style="margin-top:1.5rem;">📋 Riwayat Update Harga</div>
+    <div id="merchantHistory">
+      <div style="font-size:0.85rem;color:var(--hl-muted);font-style:italic;padding:12px 0;">Belum ada update harga. Update harga komoditas di atas untuk memulai.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MARKET POPUP MODAL ===== -->
+<div id="marketModal" class="market-modal-overlay" style="display:none;" onclick="closeMarketModal(event)">
+  <div class="market-modal">
+    <div class="modal-img-wrap">
+      <div class="market-modal-img" id="modalImg">🏪</div>
+      <button class="market-modal-close" onclick="document.getElementById('marketModal').style.display='none'">✕</button>
+    </div>
+    <div class="market-modal-body">
+      <div class="market-modal-name" id="modalName">Pasar Johar</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        <span class="market-modal-stars" id="modalStars">★★★★★</span>
+        <span style="font-size:0.82rem;color:var(--hl-muted);" id="modalRatingText">4.8 (128 ulasan)</span>
+        <span id="modalFavBtnInModal" style="margin-left:auto;"></span>
+      </div>
+      <div class="market-modal-row"><span class="icon">📍</span><div class="text" id="modalAddress">Jl. Agus Salim No.1</div></div>
+      <div class="market-modal-row"><span class="icon">🕐</span><div class="text" id="modalHours">07:00 – 14:00 WIB</div></div>
+      <div class="market-modal-row"><span class="icon">📦</span><div class="text" id="modalCommodities">8 komoditas tersedia</div></div>
+      <div class="market-modal-row"><span class="icon">📏</span><div class="text" id="modalDist">1.2 km dari lokasi Anda</div></div>
+      <div class="market-modal-cheapest" id="modalCheapest">
+        <div class="label">🏷️ Produk Termurah</div>
+        <div class="item" id="modalCheapestItem">🌾 Beras — Rp14.000/kg</div>
+      </div>
+      <div class="market-modal-badges" id="modalBadges"></div>
+      <div class="market-modal-actions">
+        <button class="btn-modal-detail" onclick="openMarketFromModal()">📋 Lihat Detail</button>
+        <button class="btn-modal-compare" onclick="compareFromModal()">⚖️ Bandingkan</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ACCESS DENIED OVERLAY ===== -->
+<div id="accessDeniedOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:10001;display:none;align-items:center;justify-content:center;">
+  <div style="background:white;border-radius:20px;padding:2rem;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+    <div style="font-size:3.5rem;margin-bottom:0.8rem;">🚫</div>
+    <h2 style="color:#b71c1c;font-size:1.2rem;margin-bottom:0.5rem;">Akses Ditolak</h2>
+    <p id="accessDeniedMsg" style="color:#6c757d;font-size:0.9rem;margin-bottom:1.2rem;line-height:1.5;">Anda tidak memiliki izin untuk mengakses halaman ini.</p>
+    <button class="btn-hl" onclick="closeAccessDenied()" style="padding:10px 28px;">← Kembali ke Beranda</button>
+  </div>
+</div>
+
 <!-- ===== TOAST ===== -->
 <div id="toast" class="hl-toast" style="display:none;"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script>
+// ===================== AUTH & RBAC SYSTEM =====================
+
+const DEMO_ACCOUNTS = [
+  { email:'user@hargalokal.id',     password:'123456', role:'user',     name:'Faustine',          icon:'👤', roleLabel:'Pengguna' },
+  { email:'merchant@hargalokal.id', password:'123456', role:'merchant', name:'Merchant Pasar Johar', icon:'🏪', roleLabel:'Petugas Pasar' },
+  { email:'admin@hargalokal.id',    password:'123456', role:'admin',    name:'Administrator',     icon:'⚙️', roleLabel:'Admin' },
+];
+
+const NAV_MENUS = {
+  user: [
+    { label:'Beranda',    page:'home',      icon:'' },
+    { label:'📍 Pasar',   page:'markets',   icon:'' },
+    { label:'⚖️ Bandingkan', page:'compare', icon:'' },
+    { label:'🛒 Keranjang', page:'basket',  icon:'' },
+    { label:'📈 Analitik', page:'analytics', icon:'' },
+    { label:'📝 Lapor',   page:'report',    icon:'' },
+  ],
+  merchant: [
+    { label:'Beranda',    page:'home',      icon:'' },
+    { label:'📍 Pasar',   page:'markets',   icon:'' },
+    { label:'⚖️ Bandingkan', page:'compare', icon:'' },
+    { label:'🛒 Keranjang', page:'basket',  icon:'' },
+    { label:'📈 Analitik', page:'analytics', icon:'' },
+    { label:'📝 Lapor',   page:'report',    icon:'' },
+    { label:'🏪 Merchant Panel', page:'merchant', icon:'' },
+  ],
+  admin: [
+    { label:'Beranda',    page:'home',      icon:'' },
+    { label:'📍 Pasar',   page:'markets',   icon:'' },
+    { label:'⚖️ Bandingkan', page:'compare', icon:'' },
+    { label:'🛒 Keranjang', page:'basket',  icon:'' },
+    { label:'📈 Analitik', page:'analytics', icon:'' },
+    { label:'📝 Lapor',   page:'report',    icon:'' },
+    { label:'🏪 Merchant Panel', page:'merchant', icon:'' },
+    { label:'⚙️ Admin Dashboard', page:'admin', icon:'' },
+  ],
+};
+
+const PAGE_ACCESS = {
+  home:      ['user','merchant','admin'],
+  markets:   ['user','merchant','admin'],
+  compare:   ['user','merchant','admin'],
+  basket:    ['user','merchant','admin'],
+  analytics: ['user','merchant','admin'],
+  report:    ['user','merchant','admin'],
+  detail:    ['user','merchant','admin'],
+  merchant:  ['merchant','admin'],
+  admin:     ['admin'],
+};
+
+let currentSession = null;
+
+function getSession() {
+  try {
+    const s = localStorage.getItem('hl_session');
+    return s ? JSON.parse(s) : null;
+  } catch(e) { return null; }
+}
+
+function saveSession(account) {
+  localStorage.setItem('hl_session', JSON.stringify({
+    email: account.email,
+    role: account.role,
+    name: account.name,
+    icon: account.icon,
+    roleLabel: account.roleLabel,
+  }));
+}
+
+function clearSession() {
+  localStorage.removeItem('hl_session');
+}
+
+function fillDemo(email, pass) {
+  document.getElementById('loginEmail').value = email;
+  document.getElementById('loginPassword').value = pass;
+  document.getElementById('loginError').style.display = 'none';
+}
+
+function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+  const pass  = document.getElementById('loginPassword').value;
+  const errEl = document.getElementById('loginError');
+  const account = DEMO_ACCOUNTS.find(a => a.email === email && a.password === pass);
+  if (!account) {
+    errEl.style.display = 'block';
+    document.getElementById('loginPassword').value = '';
+    return;
+  }
+  errEl.style.display = 'none';
+  saveSession(account);
+  currentSession = account;
+  bootApp(account);
+}
+
+function doLogout() {
+  clearSession();
+  currentSession = null;
+  // Reset UI
+  document.getElementById('navUserProfile').style.display = 'none';
+  document.getElementById('loginEmail').value = '';
+  document.getElementById('loginPassword').value = '';
+  document.getElementById('loginError').style.display = 'none';
+  // Show login
+  document.getElementById('loginOverlay').style.display = 'flex';
+}
+
+function bootApp(session) {
+  currentSession = session;
+  // Hide login overlay
+  document.getElementById('loginOverlay').style.display = 'none';
+  // Show user profile in nav
+  const profileEl = document.getElementById('navUserProfile');
+  document.getElementById('navUserName').textContent = session.icon + ' ' + session.name;
+  document.getElementById('navUserRoleLabel').textContent = session.roleLabel;
+  profileEl.style.display = 'flex';
+  // Render role-based nav
+  renderNavMenu(session.role);
+  // Show home page
+  showPage('home');
+}
+
+function renderNavMenu(role) {
+  const menus = NAV_MENUS[role] || NAV_MENUS['user'];
+  const ul = document.getElementById('navMenuList');
+  ul.innerHTML = menus.map((m, i) =>
+    `<li><button class="nav-link${i===0?' active':''}" onclick="handleNavClick('${m.page}',this)">${m.label}</button></li>`
+  ).join('');
+}
+
+function handleNavClick(pageId, btn) {
+  const role = currentSession ? currentSession.role : 'user';
+  const allowed = PAGE_ACCESS[pageId] || [];
+  if (!allowed.includes(role)) {
+    showAccessDenied(pageId, role);
+    return;
+  }
+  showPage(pageId, btn);
+}
+
+function showAccessDenied(pageId, role) {
+  let msg = 'Anda tidak memiliki izin untuk mengakses halaman ini.';
+  if (pageId === 'admin') {
+    msg = 'Akses ditolak. Halaman ini hanya dapat diakses Admin.';
+  } else if (pageId === 'merchant') {
+    msg = 'Akses ditolak. Halaman ini hanya dapat diakses Petugas Pasar.';
+  }
+  document.getElementById('accessDeniedMsg').textContent = msg;
+  const overlay = document.getElementById('accessDeniedOverlay');
+  overlay.style.display = 'flex';
+}
+
+function closeAccessDenied() {
+  document.getElementById('accessDeniedOverlay').style.display = 'none';
+  showPage('home');
+}
+
 // ===================== DATA =====================
 const markets = [
   { id:1, name:"Pasar Johar", address:"Jl. Agus Salim No.1", city:"Semarang Tengah", lat:-6.9847, lng:110.4103, lastUpdate:"2 jam lalu" },
@@ -445,12 +979,24 @@ const priceHistory = {
 
 const weekLabels = ["Mg-1","Mg-2","Mg-3","Mg-4","Mg-5","Mg-6","Mg-7"];
 
+// === FITUR BARU: Data pasar diperkaya ===
+const marketsMeta = {
+  1: { rating:4.8, reviews:128, hours:"07:00 – 14:00 WIB", photo:"🏛️", commodityCount:8, badges:["Pasar Terlengkap","Akses Mudah","Harga Kompetitif"] },
+  2: { rating:4.5, reviews:94,  hours:"06:00 – 13:00 WIB", photo:"🌿", commodityCount:8, badges:["Sayuran Segar","Dekat Jalan Raya"] },
+  3: { rating:4.3, reviews:76,  hours:"06:30 – 13:30 WIB", photo:"🛒", commodityCount:8, badges:["Daging Segar","Parkir Luas"] },
+  4: { rating:4.6, reviews:112, hours:"07:00 – 15:00 WIB", photo:"🏪", commodityCount:8, badges:["Buka Paling Lama","Harga Stabil"] },
+  5: { rating:4.2, reviews:58,  hours:"06:00 – 12:00 WIB", photo:"🧺", commodityCount:8, badges:["Pasar Tradisional","Komunitas Lokal"] },
+  6: { rating:4.4, reviews:83,  hours:"06:00 – 13:00 WIB", photo:"🌾", commodityCount:8, badges:["Beras Murah","Wilayah Timur"] },
+};
+
 let userLat = -6.9847, userLng = 110.4103;
 let mapInstance = null;
 let currentMarket = 1;
 let selectedCompare = new Set([1,2]);
 let trendChartInst = null, predChartInst = null;
 let reportsList = [];
+let favoriteMarkets = new Set(); // FITUR BARU: favorit pasar
+let modalCurrentMarketId = null; // FITUR BARU: pasar aktif di modal
 
 // ===================== HELPERS =====================
 function fmt(n) { return 'Rp' + n.toLocaleString('id-ID'); }
@@ -519,10 +1065,14 @@ function renderHome() {
 
 function marketCardHTML(m, dist) {
   const pList = commodities.slice(0,4).map(c=>`<span class="price-tag">${c.icon} ${fmt(prices[m.id][c.id])}</span>`).join('');
-  return `<div class="market-card" onclick="openMarket(${m.id})">
+  const isFav = favoriteMarkets.has(m.id);
+  return `<div class="market-card" onclick="openMarketModal(${m.id})">
     <div class="market-card-header">
       <span class="market-card-name">🏪 ${m.name}</span>
-      <span class="market-badge">${dist} km</span>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span class="market-badge">${dist} km</span>
+        <button class="fav-btn ${isFav?'active':''}" onclick="event.stopPropagation();toggleFavorite(${m.id})" title="${isFav?'Hapus favorit':'Tambah favorit'}" style="width:26px;height:26px;font-size:0.85rem;">${isFav?'❤️':'🤍'}</button>
+      </div>
     </div>
     <div class="market-card-body">
       <div class="market-info-row"><span class="label">📍 Lokasi</span><span class="val">${m.city}</span></div>
@@ -596,11 +1146,65 @@ function initMap() {
 
   markets.forEach(m => {
     const icon = L.divIcon({html:`<div style="background:var(--hl-green);color:white;border-radius:8px;padding:4px 8px;font-size:11px;font-weight:700;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.25);">🏪 ${m.name}</div>`,className:'',iconAnchor:[0,0]});
-    const dist = calcDist(userLat,userLng,m.lat,m.lng);
     L.marker([m.lat,m.lng],{icon}).addTo(mapInstance)
-      .bindPopup(`<strong>${m.name}</strong><br>📍 ${m.address}<br>📏 ${dist} km<br>🕐 ${m.lastUpdate}<br><button onclick="openMarket(${m.id})" style="margin-top:6px;padding:4px 12px;background:var(--hl-green);color:white;border:none;border-radius:6px;cursor:pointer;font-size:12px;">Lihat Detail</button>`);
+      .on('click', () => openMarketModal(m.id));
   });
   renderMarkets();
+}
+
+// ===== FITUR BARU: Market Popup Modal =====
+function openMarketModal(id) {
+  modalCurrentMarketId = id;
+  const m = markets.find(x=>x.id===id);
+  const meta = marketsMeta[id] || {};
+  const dist = calcDist(userLat,userLng,m.lat,m.lng);
+  const isFav = favoriteMarkets.has(id);
+
+  // Harga paling murah di pasar ini
+  const cheapestEntry = commodities.map(c=>({c,p:prices[id][c.id]||0})).sort((a,b)=>a.p-b.p)[0];
+
+  // Rating stars
+  const stars = '★'.repeat(Math.round(meta.rating||4)) + '☆'.repeat(5-Math.round(meta.rating||4));
+
+  document.getElementById('modalImg').textContent = meta.photo || '🏪';
+  document.getElementById('modalName').textContent = m.name;
+  document.getElementById('modalStars').textContent = stars;
+  document.getElementById('modalRatingText').textContent = `${meta.rating} (${meta.reviews} ulasan)`;
+  document.getElementById('modalAddress').textContent = `${m.address}, ${m.city}`;
+  document.getElementById('modalHours').textContent = meta.hours || '07:00 – 14:00 WIB';
+  document.getElementById('modalCommodities').textContent = `${meta.commodityCount || 8} komoditas tersedia`;
+  document.getElementById('modalDist').textContent = `${dist} km dari lokasi Anda`;
+  document.getElementById('modalCheapestItem').textContent = `${cheapestEntry.c.icon} ${cheapestEntry.c.name} — ${fmt(cheapestEntry.p)}/${cheapestEntry.c.unit}`;
+
+  // Fav button inside modal
+  document.getElementById('modalFavBtnInModal').innerHTML = `<button class="fav-btn ${isFav?'active':''}" onclick="toggleFavFromModal(${id})" title="${isFav?'Hapus dari favorit':'Tambah ke favorit'}">${isFav?'❤️':'🤍'}</button>`;
+
+  // Badges
+  const badges = meta.badges || [];
+  document.getElementById('modalBadges').innerHTML = badges.map(b=>`<span class="market-modal-badge">${b}</span>`).join('');
+
+  document.getElementById('marketModal').style.display = 'flex';
+}
+
+function closeMarketModal(e) {
+  if(e.target.id==='marketModal') document.getElementById('marketModal').style.display='none';
+}
+
+function openMarketFromModal() {
+  document.getElementById('marketModal').style.display='none';
+  if(modalCurrentMarketId) openMarket(modalCurrentMarketId);
+}
+
+function compareFromModal() {
+  document.getElementById('marketModal').style.display='none';
+  if(modalCurrentMarketId) addToCompare(modalCurrentMarketId);
+}
+
+function toggleFavFromModal(id) {
+  toggleFavorite(id);
+  // Re-render fav button in modal
+  const isFav = favoriteMarkets.has(id);
+  document.getElementById('modalFavBtnInModal').innerHTML = `<button class="fav-btn ${isFav?'active':''}" onclick="toggleFavFromModal(${id})" title="${isFav?'Hapus dari favorit':'Tambah ke favorit'}">${isFav?'❤️':'🤍'}</button>`;
 }
 
 // ===================== MARKET DETAIL =====================
@@ -841,6 +1445,29 @@ function initReport() {
   if(!rm.options.length) markets.forEach(m=>rm.innerHTML+=`<option value="${m.id}">${m.name}</option>`);
   if(!rc.options.length) commodities.forEach(c=>rc.innerHTML+=`<option value="${c.id}">${c.icon} ${c.name}</option>`);
   document.getElementById('repDate').value = new Date().toISOString().split('T')[0];
+
+  // Merchant panel selects
+  const mm = document.getElementById('merchantMarket');
+  const mc = document.getElementById('merchantCommodity');
+  if(!mm.querySelector('option[value="1"]')) markets.forEach(m=>mm.innerHTML+=`<option value="${m.id}">${m.name}</option>`);
+  if(!mc.options.length) commodities.forEach(c=>mc.innerHTML+=`<option value="${c.id}">${c.icon} ${c.name}</option>`);
+
+  renderMyReports();
+}
+
+function submitMerchantPrice() {
+  const mid = parseInt(document.getElementById('merchantMarket').value);
+  const cid = parseInt(document.getElementById('merchantCommodity').value);
+  const price = parseInt(document.getElementById('merchantPrice').value);
+  if(!mid) { showToast('⚠️ Pilih pasar terlebih dahulu'); return; }
+  if(!price || price <= 0) { showToast('⚠️ Harga harus lebih dari 0'); return; }
+  // Update harga langsung (merchant langsung, tanpa verifikasi)
+  prices[mid][cid] = price;
+  document.getElementById('merchantPrice').value = '';
+  const m = markets.find(x=>x.id===mid);
+  const c = commodities.find(x=>x.id===cid);
+  showToast(`✅ Harga resmi ${c.name} di ${m.name} diperbarui ke ${fmt(price)}`);
+  reportsList.push({id:reportsList.length+1, market:m.name, commodity:c.name, price, date:new Date().toISOString().split('T')[0], status:'approved', role:'merchant'});
   renderMyReports();
 }
 
@@ -865,9 +1492,10 @@ function renderMyReports() {
   const el = document.getElementById('myReports');
   if(!reportsList.length) { el.innerHTML='<p style="color:var(--hl-muted);font-size:0.88rem;">Belum ada laporan. Jadilah yang pertama melaporkan harga!</p>'; return; }
   el.innerHTML = reportsList.map(r=>`<div class="report-row">
-    <span>🏪 ${r.market} — ${r.commodity}</span>
+    <span>${r.role==='merchant'?'🏪':'👤'} <strong>${r.market}</strong> — ${r.commodity}</span>
     <span>${fmt(r.price)}</span>
-    <span>${r.date}</span>
+    <span style="font-size:0.78rem;color:var(--hl-muted);">${r.date}</span>
+    ${r.role==='merchant'?'<span style="background:#E8F5E9;color:#1B5E20;border-radius:20px;padding:3px 10px;font-size:0.72px;font-weight:700;font-size:0.72rem;">Petugas Pasar</span>':''}
     <span class="${r.status==='pending'?'badge-pending':r.status==='approved'?'badge-approved':'badge-rejected'}">${r.status==='pending'?'Menunggu':r.status==='approved'?'Disetujui':'Ditolak'}</span>
   </div>`).join('');
 }
@@ -876,6 +1504,9 @@ function renderMyReports() {
 function renderAdmin() {
   document.getElementById('adminReports').textContent = reportsList.length;
 
+  // AI Insight Cards for Admin
+  renderAdminAiCards();
+
   // Market table
   const tbody = document.getElementById('adminMarketTable');
   tbody.innerHTML = markets.map(m=>`<tr><td>${m.id}</td><td>${m.name}</td><td>${m.city}</td><td style="font-size:0.78rem;color:var(--hl-muted);">${m.lat.toFixed(4)}, ${m.lng.toFixed(4)}</td></tr>`).join('');
@@ -883,19 +1514,47 @@ function renderAdmin() {
   // Report list
   const el = document.getElementById('adminReportList');
   const allReports = [
-    {market:'Pasar Johar',commodity:'Beras',price:14500,date:'2025-06-09',status:'approved'},
-    {market:'Pasar Peterongan',commodity:'Cabai',price:35000,date:'2025-06-08',status:'approved'},
-    {market:'Pasar Bulu',commodity:'Telur',price:27500,date:'2025-06-08',status:'pending'},
+    {market:'Pasar Johar',commodity:'Beras',price:14500,date:'2025-06-09',status:'approved',role:'merchant'},
+    {market:'Pasar Peterongan',commodity:'Cabai',price:35000,date:'2025-06-08',status:'approved',role:'user'},
+    {market:'Pasar Bulu',commodity:'Telur',price:27500,date:'2025-06-08',status:'pending',role:'user'},
     ...reportsList
   ];
   if(!allReports.length) { el.innerHTML='<p style="color:var(--hl-muted);">Belum ada laporan.</p>'; return; }
   el.innerHTML = allReports.map((r,i)=>`<div class="report-row">
-    <span>🏪 <strong>${r.market}</strong> — ${r.commodity}</span>
+    <span>${r.role==='merchant'?'🏪':'👤'} <strong>${r.market}</strong> — ${r.commodity}${r.role==='merchant'?' <span style="background:#FFF9C4;color:#827717;border-radius:10px;padding:1px 7px;font-size:0.68rem;font-weight:700;">Petugas</span>':' <span style="background:#E3F2FD;color:#1565C0;border-radius:10px;padding:1px 7px;font-size:0.68rem;font-weight:700;">Pengguna</span>'}</span>
     <span>${fmt(r.price)}</span>
     <span style="color:var(--hl-muted);font-size:0.78rem;">${r.date}</span>
     <span class="${r.status==='pending'?'badge-pending':r.status==='approved'?'badge-approved':'badge-rejected'}">${r.status==='pending'?'Menunggu':r.status==='approved'?'Disetujui':'Ditolak'}</span>
     ${r.status==='pending'?`<button onclick="approveReport(${i},'approved')" style="padding:3px 10px;background:var(--hl-green);color:white;border:none;border-radius:6px;cursor:pointer;font-size:0.72rem;">✓ Setujui</button><button onclick="approveReport(${i},'rejected')" style="padding:3px 10px;background:#e53935;color:white;border:none;border-radius:6px;cursor:pointer;font-size:0.72rem;margin-left:4px;">✗ Tolak</button>`:''}
   </div>`).join('');
+}
+
+function renderAdminAiCards() {
+  const reco = calcRecommendation();
+  const el = document.getElementById('adminAiCards');
+  if(!el) return;
+  el.innerHTML = reco.slice(0,3).map((r,i)=>`
+    <div class="ai-card" style="margin-bottom:10px;${i>0?'opacity:0.9;':''}">
+      <div class="ai-card-label">🤖 SmartCompare AI ${i===0?'— Pilihan Utama':i===1?'— Alternatif':'— Cadangan'}</div>
+      <div class="ai-card-title">🏪 ${r.market.name}</div>
+      <div class="ai-card-text">${generateAiInsightText(r, i)}</div>
+      <div class="ai-scores">
+        <div class="ai-score-item"><div class="val">${r.priceScore}/100</div><div class="lbl">Skor Harga</div><div class="ai-score-bar"><div class="ai-score-fill" style="width:${r.priceScore}%;"></div></div></div>
+        <div class="ai-score-item"><div class="val">${r.distScore}/100</div><div class="lbl">Skor Jarak</div><div class="ai-score-bar"><div class="ai-score-fill" style="width:${r.distScore}%;"></div></div></div>
+        <div class="ai-score-item"><div class="val">${r.freshScore}/100</div><div class="lbl">Kebaruan Data</div><div class="ai-score-bar"><div class="ai-score-fill" style="width:${r.freshScore}%;"></div></div></div>
+        <div class="ai-score-item"><div class="val" style="color:var(--hl-accent);">${r.score}/100</div><div class="lbl">Total Skor</div><div class="ai-score-bar"><div class="ai-score-fill" style="width:${r.score}%;"></div></div></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function generateAiInsightText(r, rank) {
+  const distLabel = r.dist < 1.5 ? 'sangat dekat' : r.dist < 3 ? 'cukup dekat' : 'terjangkau';
+  const priceLabel = r.priceScore >= 80 ? 'harga sangat kompetitif' : r.priceScore >= 60 ? 'harga kompetitif' : 'harga standar';
+  const freshLabel = r.freshScore >= 80 ? 'data sangat segar' : 'data terkini';
+  if(rank===0) return `SmartCompare AI merekomendasikan ${r.market.name} sebagai pilihan terbaik karena memiliki ${priceLabel} (skor ${r.priceScore}/100), jarak ${distLabel} ${r.dist} km (skor ${r.distScore}/100), dan ${freshLabel} (skor ${r.freshScore}/100). Skor gabungan tertinggi di antara semua pasar.`;
+  if(rank===1) return `${r.market.name} menjadi alternatif unggulan dengan kombinasi ${priceLabel} dan lokasi ${distLabel}. Cocok jika pilihan utama sedang padat atau tutup.`;
+  return `${r.market.name} direkomendasikan sebagai cadangan strategis dengan skor keseimbangan harga dan jarak yang baik.`;
 }
 
 function approveReport(i, status) {
@@ -908,41 +1567,214 @@ function approveReport(i, status) {
   showToast(status==='approved'?'✅ Laporan disetujui':'❌ Laporan ditolak');
 }
 
-// ===================== INIT =====================
-renderHome();
-renderMarkets();
-renderBasket();
-renderCompareSelect();
+// ===================== FITUR BARU: Favorit + Persona + AI Insight =====
+function toggleFavorite(id) {
+  if(favoriteMarkets.has(id)) {
+    favoriteMarkets.delete(id);
+    showToast('🤍 Pasar dihapus dari favorit');
+  } else {
+    favoriteMarkets.add(id);
+    showToast('❤️ Pasar ditambahkan ke favorit!');
+  }
+  renderFavStrip();
+  renderHome();
+}
 
-// Auto-render compare page
-setTimeout(()=>renderComparison(), 100);
+function renderFavStrip() {
+  const el = document.getElementById('favStrip');
+  if(!el) return;
+  if(favoriteMarkets.size === 0) {
+    el.innerHTML = '<span class="fav-empty">Belum ada pasar favorit. Klik 🤍 pada kartu pasar untuk menyimpan.</span>';
+    return;
+  }
+  el.innerHTML = [...favoriteMarkets].map(id => {
+    const m = markets.find(x=>x.id===id);
+    return `<div class="fav-chip" onclick="openMarketModal(${id})">❤️ ${m.name} <span class="fav-x" onclick="event.stopPropagation();toggleFavorite(${id})">✕</span></div>`;
+  }).join('');
+}
 
-// Recommendation section on home
-const reco = calcRecommendation();
-if(reco.length) {
+function renderPersonaInsight() {
+  const lokasi = document.getElementById('personaLokasi')?.value || 'Banyumanik';
+  const budget = parseInt(document.getElementById('personaBudget')?.value || 150000);
+  const favorit = document.getElementById('personaFavorit')?.value || 'Pasar Johar';
+  const el = document.getElementById('personaInsightBox');
+  if(!el) return;
+
+  const reco = calcRecommendation();
   const best = reco[0];
-  document.getElementById('featuredMarkets').insertAdjacentHTML('afterend', `
-    <div class="section-title" style="margin-top:1rem;">🤖 Rekomendasi Cerdas Hari Ini</div>
-    <div class="reco-card">
-      <div class="reco-title">⭐ REKOMENDASI TERBAIK — Skor ${best.score}/100</div>
-      <div class="reco-market">🏪 ${best.market.name}</div>
-      <div class="reco-saving">📏 ${best.dist} km · Harga lebih rendah & data terkini</div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px;">
-        ${[['Skor Harga',best.priceScore,'#2E7D32'],['Skor Jarak',best.distScore,'#1565C0'],['Skor Kebaruan',best.freshScore,'#E65100']].map(([lbl,val,col])=>`
-        <div>
-          <div style="font-size:0.72rem;color:var(--hl-muted);">${lbl}</div>
-          <div style="font-weight:700;font-size:1rem;color:${col};">${val}</div>
-          <div class="score-bar"><div class="score-fill" style="width:${val}%;background:${col};"></div></div>
-        </div>`).join('')}
-      </div>
-      <div class="reco-badges">
-        <span class="reco-badge">Harga Terbaik</span>
-        <span class="reco-badge">Lokasi Strategis</span>
-        <span class="reco-badge">Data Terkini</span>
+  const budgetFmt = 'Rp' + budget.toLocaleString('id-ID');
+  const favInTop3 = reco.slice(0,3).find(r=>r.market.name===favorit);
+
+  let insightText = '';
+  let tags = [];
+
+  if(best.dist <= 2) {
+    insightText = `Karena Anda berada di <strong>${lokasi}</strong> dan memiliki budget <strong>${budgetFmt}</strong>, <strong>${best.market.name}</strong> sangat direkomendasikan — hanya ${best.dist} km dari Anda dengan kombinasi harga murah dan data terkini.`;
+    tags = ['Jarak Dekat', 'Harga Kompetitif', 'Data Segar'];
+  } else if(budget <= 100000) {
+    insightText = `Dengan budget <strong>${budgetFmt}</strong>, prioritaskan pasar dengan total harga terendah. <strong>${best.market.name}</strong> memberikan nilai terbaik untuk anggaran Anda dari lokasi <strong>${lokasi}</strong>.`;
+    tags = ['Budget Hemat', 'Prioritas Harga'];
+  } else {
+    insightText = `Karena Anda berada di <strong>${lokasi}</strong> dan memiliki budget <strong>${budgetFmt}</strong>, <strong>${best.market.name}</strong> direkomendasikan karena memiliki skor harga ${best.priceScore}/100, skor jarak ${best.distScore}/100, dan data terbaru ${best.freshScore}/100.`;
+    tags = ['Skor Tertinggi', 'Pilihan Cerdas'];
+  }
+  if(favInTop3 && favInTop3.market.name !== best.market.name) {
+    insightText += ` Pasar favorit Anda <strong>${favorit}</strong> juga merupakan pilihan baik (skor ${favInTop3.score}/100).`;
+    tags.push('Favorit Anda Bagus');
+  }
+
+  el.innerHTML = `
+    <div class="persona-insight">💡 ${insightText}</div>
+    <div class="persona-tags">${tags.map(t=>`<span class="persona-tag">✓ ${t}</span>`).join('')}</div>
+  `;
+}
+
+function renderHomeAiCard() {
+  const reco = calcRecommendation();
+  if(!reco.length) return '';
+  const best = reco[0];
+  return `
+    <div class="section-title" style="margin-top:1rem;">🤖 AI SmartCompare Insight</div>
+    <div class="ai-card">
+      <div class="ai-card-label">🤖 SmartCompare AI — Rekomendasi Hari Ini</div>
+      <div class="ai-card-title">🏪 ${best.market.name}</div>
+      <div class="ai-card-text">SmartCompare AI merekomendasikan <strong>${best.market.name}</strong> karena memiliki skor harga ${best.priceScore}/100, jarak ${best.distScore}/100, dan data terbaru ${best.freshScore}/100. Skor gabungan: <strong>${best.score}/100</strong> — tertinggi di antara semua pasar hari ini.</div>
+      <div class="ai-scores">
+        <div class="ai-score-item"><div class="val">${best.priceScore}/100</div><div class="lbl">Skor Harga</div><div class="ai-score-bar"><div class="ai-score-fill" style="width:${best.priceScore}%;"></div></div></div>
+        <div class="ai-score-item"><div class="val">${best.distScore}/100</div><div class="lbl">Skor Jarak</div><div class="ai-score-bar"><div class="ai-score-fill" style="width:${best.distScore}%;"></div></div></div>
+        <div class="ai-score-item"><div class="val">${best.freshScore}/100</div><div class="lbl">Kebaruan</div><div class="ai-score-bar"><div class="ai-score-fill" style="width:${best.freshScore}%;"></div></div></div>
       </div>
     </div>
-  `);
+  `;
 }
+
+// ===================== MERCHANT PANEL PAGE FUNCTIONS =====================
+let merchantHistory = [];
+
+function initMerchantPanel2() {
+  const mSel = document.getElementById('merchantMarket2');
+  const cSel = document.getElementById('merchantCommodity2');
+  if (!mSel || !cSel) return;
+  if (mSel.options.length === 0) {
+    mSel.innerHTML = markets.map(m=>`<option value="${m.id}">${m.name}</option>`).join('');
+  }
+  if (cSel.options.length === 0) {
+    cSel.innerHTML = commodities.map(c=>`<option value="${c.id}">${c.icon} ${c.name} / ${c.unit}</option>`).join('');
+  }
+  renderMerchantHistory();
+}
+
+function submitMerchantPrice2() {
+  const mId = parseInt(document.getElementById('merchantMarket2').value);
+  const cId = parseInt(document.getElementById('merchantCommodity2').value);
+  const price = parseInt(document.getElementById('merchantPrice2').value);
+  if (!price || price < 1) { showToast('⚠️ Masukkan harga yang valid'); return; }
+  const m = markets.find(x=>x.id===mId);
+  const c = commodities.find(x=>x.id===cId);
+  prices[mId][cId] = price;
+  m.lastUpdate = 'Baru saja';
+  merchantHistory.unshift({ market: m.name, commodity: c.icon+' '+c.name, price, time: new Date().toLocaleTimeString('id-ID') });
+  document.getElementById('merchantPrice2').value = '';
+  renderMerchantHistory();
+  showToast('✅ Harga berhasil diupdate: ' + fmt(price) + '/' + c.unit);
+}
+
+function renderMerchantHistory() {
+  const el = document.getElementById('merchantHistory');
+  if (!el) return;
+  if (!merchantHistory.length) {
+    el.innerHTML = '<div style="font-size:0.85rem;color:var(--hl-muted);font-style:italic;padding:12px 0;">Belum ada update harga. Update harga komoditas di atas untuk memulai.</div>';
+    return;
+  }
+  el.innerHTML = merchantHistory.map(h=>`
+    <div class="report-row">
+      <span>🏪 <strong>${h.market}</strong> — ${h.commodity}</span>
+      <span style="font-weight:700;color:var(--hl-green);">${fmt(h.price)}</span>
+      <span style="color:var(--hl-muted);font-size:0.78rem;">✅ ${h.time}</span>
+    </div>`).join('');
+}
+
+// ===================== PATCH showPage to handle merchant page =====================
+const _origShowPageFn = showPage;
+showPage = function(id, btn) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const pg = document.getElementById('page-'+id);
+  if (pg) pg.classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  if(id==='markets' && !mapInstance) initMap();
+  if(id==='analytics') { initAnalyticsSelects(); renderAnalytics(); }
+  if(id==='admin') renderAdmin();
+  if(id==='report') initReport();
+  if(id==='merchant') initMerchantPanel2();
+};
+
+// ===================== bootApp override (needs all features loaded) =====================
+bootApp = function(session) {
+  currentSession = session;
+  document.getElementById('loginOverlay').style.display = 'none';
+  const profileEl = document.getElementById('navUserProfile');
+  document.getElementById('navUserName').textContent = session.icon + ' ' + session.name;
+  document.getElementById('navUserRoleLabel').textContent = session.roleLabel;
+  profileEl.style.display = 'flex';
+  renderNavMenu(session.role);
+  if (!window._featuresInited) {
+    window._featuresInited = true;
+    initAllFeatures();
+  }
+  showPage('home');
+};
+
+// ===================== INIT ALL FEATURES =====================
+function initAllFeatures() {
+  renderHome();
+  renderMarkets();
+  renderBasket();
+  renderCompareSelect();
+  initReport();
+  setTimeout(()=>renderComparison(), 100);
+
+  const recoInit = calcRecommendation();
+  if(recoInit.length && !document.getElementById('recoSection')) {
+    const best = recoInit[0];
+    document.getElementById('featuredMarkets').insertAdjacentHTML('afterend', `
+      <div id="recoSection">
+      <div class="section-title" style="margin-top:1rem;">⭐ Rekomendasi Cerdas Hari Ini</div>
+      <div class="reco-card">
+        <div class="reco-title">⭐ REKOMENDASI TERBAIK — Skor ${best.score}/100</div>
+        <div class="reco-market">🏪 ${best.market.name}</div>
+        <div class="reco-saving">📏 ${best.dist} km · Harga lebih rendah & data terkini</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px;">
+          ${[['Skor Harga',best.priceScore,'#2E7D32'],['Skor Jarak',best.distScore,'#1565C0'],['Skor Kebaruan',best.freshScore,'#E65100']].map(([lbl,val,col])=>`
+          <div>
+            <div style="font-size:0.72rem;color:var(--hl-muted);">${lbl}</div>
+            <div style="font-weight:700;font-size:1rem;color:${col};">${val}</div>
+            <div class="score-bar"><div class="score-fill" style="width:${val}%;background:${col};"></div></div>
+          </div>`).join('')}
+        </div>
+        <div class="reco-badges">
+          <span class="reco-badge">Harga Terbaik</span>
+          <span class="reco-badge">Lokasi Strategis</span>
+          <span class="reco-badge">Data Terkini</span>
+        </div>
+      </div>
+      ${renderHomeAiCard()}
+      </div>
+    `);
+  }
+  setTimeout(()=>{ renderPersonaInsight(); renderFavStrip(); }, 50);
+  initMerchantPanel2();
+}
+
+// ===================== AUTH INIT (runs after all code is defined) =====================
+(function initAuth() {
+  const session = getSession();
+  if (session) {
+    bootApp(session);
+  } else {
+    document.getElementById('loginOverlay').style.display = 'flex';
+  }
+})();
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
